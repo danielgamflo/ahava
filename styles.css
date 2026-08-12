@@ -577,7 +577,7 @@ body {
 .gallery-item {
   flex: 0 0 300px;
   height: 400px;
-  border-radius: 0;
+  border-radius: 12px 12px 0 0;
   overflow: hidden;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -688,6 +688,7 @@ body.lightbox-open {
   background: var(--beige);
   padding: 0;
   overflow: hidden;
+  max-height: 600px;
 }
 
 .carousel-wrapper {
