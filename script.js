@@ -225,7 +225,44 @@ function openLightbox(productId) {
     };
   }
 
+  // Add touch listeners for carousel
+  const track = document.getElementById('carouselTrack');
+  if (track) {
+    // Remove old listeners first
+    track.removeEventListener('touchstart', handleTouchStart);
+    track.removeEventListener('touchend', handleTouchEnd);
+
+    // Add new listeners
+    track.addEventListener('touchstart', handleTouchStart, false);
+    track.addEventListener('touchend', handleTouchEnd, false);
+  }
+
   document.getElementById('lightbox').classList.add('active');
+}
+
+function handleTouchStart(e) {
+  if (e.touches && e.touches.length > 0) {
+    touchStartX = e.touches[0].clientX;
+    lastTouchTime = Date.now();
+  }
+}
+
+function handleTouchEnd(e) {
+  if (!e.changedTouches || e.changedTouches.length === 0) return;
+  if (Date.now() - lastTouchTime > 1000) return;
+
+  const touchEndX = e.changedTouches[0].clientX;
+  const diff = touchStartX - touchEndX;
+
+  if (Math.abs(diff) > 50) {
+    if (diff > 0 && currentProduct && currentLightboxSlideIndex < (currentProduct.images.length - 1)) {
+      currentLightboxSlideIndex++;
+    } else if (diff < 0 && currentLightboxSlideIndex > 0) {
+      currentLightboxSlideIndex--;
+    }
+    updateLightboxCarousel();
+    updateCarouselDots();
+  }
 }
 
 function updateLightboxCarousel() {
@@ -278,35 +315,6 @@ document.addEventListener('DOMContentLoaded', function() {
     lightbox.onclick = function(e) {
       if (e.target === this) closeLightbox();
     };
-
-    // Add touch listeners to carousel track
-    const track = document.getElementById('carouselTrack');
-    if (track) {
-      track.addEventListener('touchstart', function(e) {
-        if (e.touches && e.touches.length > 0) {
-          touchStartX = e.touches[0].clientX;
-          lastTouchTime = Date.now();
-        }
-      }, false);
-
-      track.addEventListener('touchend', function(e) {
-        if (!e.changedTouches || e.changedTouches.length === 0) return;
-        if (Date.now() - lastTouchTime > 1000) return;
-
-        const touchEndX = e.changedTouches[0].clientX;
-        const diff = touchStartX - touchEndX;
-
-        if (Math.abs(diff) > 50) {
-          if (diff > 0 && currentProduct && currentLightboxSlideIndex < (currentProduct.images.length - 1)) {
-            currentLightboxSlideIndex++;
-          } else if (diff < 0 && currentLightboxSlideIndex > 0) {
-            currentLightboxSlideIndex--;
-          }
-          updateLightboxCarousel();
-          updateCarouselDots();
-        }
-      }, false);
-    }
   }
 
   document.addEventListener('keydown', function(e) {
