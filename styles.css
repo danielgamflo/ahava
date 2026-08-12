@@ -831,11 +831,13 @@ body.lightbox-open {
   text-transform: uppercase;
   margin-bottom: 0.5rem;
   letter-spacing: 0.5px;
+  line-height: 1;
 }
 
 .spec-value {
   font-size: 14px;
   font-weight: 700;
+  line-height: 1;
 }
 
 .spec-box:nth-child(1) {
