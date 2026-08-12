@@ -44,10 +44,14 @@ let allProducts = [];
 
 async function loadProducts() {
   try {
+    console.log('Loading products...');
     const response = await fetch('data.json');
+    console.log('Response status:', response.status);
     const data = await response.json();
+    console.log('Products loaded:', data.products.length);
     allProducts = data.products;
     renderProductsByCategory(data.products);
+    console.log('Products rendered');
   } catch (error) {
     console.error('Error loading products:', error);
   }
