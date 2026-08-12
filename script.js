@@ -1,4 +1,4 @@
-// Carousel
+// Hero Carousel
 let currentSlideIndex = 1;
 let carouselAutoPlayInterval;
 
@@ -8,19 +8,34 @@ function currentSlide(n) {
 }
 
 function showSlide(n) {
-  const slides = document.querySelectorAll('.carousel-slide');
-  const dots = document.querySelectorAll('.dot');
+  const heroCarousel = document.querySelector('.hero-carousel');
+  if (!heroCarousel) {
+    console.log('Hero carousel not found');
+    return;
+  }
+
+  const slides = heroCarousel.querySelectorAll('.carousel-slide');
+  const dots = heroCarousel.querySelectorAll('.dot');
+
+  console.log('Found slides:', slides.length, 'dots:', dots.length, 'showing:', currentSlideIndex);
+
   if (n > slides.length) currentSlideIndex = 1;
   if (n < 1) currentSlideIndex = slides.length;
+
   slides.forEach(slide => slide.classList.remove('active'));
   dots.forEach(dot => dot.classList.remove('active'));
-  if (slides[currentSlideIndex - 1]) slides[currentSlideIndex - 1].classList.add('active');
+
+  if (slides[currentSlideIndex - 1]) {
+    slides[currentSlideIndex - 1].classList.add('active');
+    console.log('Added active to slide', currentSlideIndex);
+  }
   if (dots[currentSlideIndex - 1]) dots[currentSlideIndex - 1].classList.add('active');
 }
 
 function autoPlayCarousel() {
   carouselAutoPlayInterval = setInterval(() => {
     currentSlideIndex++;
+    console.log('Carousel slide:', currentSlideIndex);
     showSlide(currentSlideIndex);
   }, 5000);
 }
@@ -69,6 +84,9 @@ function renderProductsByCategory(products) {
     description.className = 'category-description';
     description.textContent = 'Descubre nuestras ' + categoryProducts.length + ' variedad' + (categoryProducts.length > 1 ? 'es' : '') + ' de ' + category.toLowerCase() + '.';
 
+    const galleryWrapper = document.createElement('div');
+    galleryWrapper.className = 'gallery-wrapper';
+
     const gallery = document.createElement('div');
     gallery.className = 'category-gallery';
 
@@ -76,7 +94,7 @@ function renderProductsByCategory(products) {
       const galleryItem = document.createElement('div');
       galleryItem.className = 'gallery-item';
       const img = document.createElement('img');
-      img.src = 'assets/images/placeholder-product.svg';
+      img.src = product.image ? 'assets/images/' + product.image : 'assets/images/placeholder-product.svg';
       img.alt = product.name;
       galleryItem.appendChild(img);
 
@@ -89,8 +107,33 @@ function renderProductsByCategory(products) {
       gallery.appendChild(galleryItem);
     });
 
+    // Create gallery dots
+    const dotsContainer = document.createElement('div');
+    dotsContainer.className = 'gallery-dots-container';
+    for (let i = 0; i < categoryProducts.length; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+      dot.onclick = (function(index) {
+        return function() {
+          gallery.scrollLeft = index * (galleryWrapper.offsetWidth);
+          updateGalleryDots(dotsContainer, index);
+        };
+      })(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    // Update dots on scroll
+    gallery.addEventListener('scroll', function() {
+      const itemWidth = gallery.offsetWidth;
+      const scrollPos = gallery.scrollLeft;
+      const activeIndex = Math.round(scrollPos / itemWidth);
+      updateGalleryDots(dotsContainer, activeIndex);
+    });
+
+    galleryWrapper.appendChild(gallery);
+    galleryWrapper.appendChild(dotsContainer);
     body.appendChild(description);
-    body.appendChild(gallery);
+    body.appendChild(galleryWrapper);
     content.appendChild(body);
     section.appendChild(header);
     section.appendChild(content);
@@ -108,26 +151,47 @@ let touchStartX = 0;
 let lastTouchTime = 0;
 
 function openLightbox(productId) {
+  console.log('Opening lightbox for product:', productId);
   const product = allProducts.find(p => p.id === productId);
   if (!product) return;
 
+  document.body.classList.add('lightbox-open');
   currentLightboxSlideIndex = 0;
 
   // Carousel
   const track = document.getElementById('carouselTrack');
+  console.log('Track found:', !!track);
   track.innerHTML = '';
+  track.style.transform = 'translateX(0%)';
 
-  for (let i = 0; i < 4; i++) {
-    const slide = document.createElement('div');
-    slide.className = 'carousel-slide';
-    const img = document.createElement('img');
-    img.src = 'assets/images/placeholder-product.svg';
-    img.alt = 'Vista ' + (i + 1);
-    slide.appendChild(img);
-    track.appendChild(slide);
+  if (product.images && product.images.length > 0) {
+    product.images.forEach((imagePath) => {
+      const slide = document.createElement('div');
+      slide.className = 'carousel-slide';
+      const img = document.createElement('img');
+      img.src = 'assets/images/' + imagePath;
+      img.alt = product.name;
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      slide.appendChild(img);
+      track.appendChild(slide);
+    });
   }
 
-  track.style.transform = 'translateX(0%)';
+  // Create carousel dots
+  const dotsContainer = document.getElementById('carouselDots');
+  dotsContainer.innerHTML = '';
+  for (let i = 0; i < 4; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = function() {
+      currentLightboxSlideIndex = i;
+      updateLightboxCarousel();
+      updateCarouselDots();
+    };
+    dotsContainer.appendChild(dot);
+  }
 
   document.getElementById('productCategory').textContent = product.category;
   document.getElementById('productTitle').textContent = product.name;
@@ -171,11 +235,21 @@ function updateLightboxCarousel() {
 
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('active');
+  document.body.classList.remove('lightbox-open');
+}
+
+function updateCarouselDots() {
+  const dots = document.querySelectorAll('.carousel-dot');
+  dots.forEach((dot, index) => {
+    dot.classList.toggle('active', index === currentLightboxSlideIndex);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  showSlide(currentSlideIndex);
-  // autoPlayCarousel();
+  setTimeout(() => {
+    showSlide(currentSlideIndex);
+    autoPlayCarousel();
+  }, 100);
 
   // Hamburger menu
   const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -221,12 +295,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const diff = touchStartX - touchEndX;
 
         if (Math.abs(diff) > 50) {
-          if (diff > 0 && currentLightboxSlideIndex < 3) {
+          if (diff > 0 && currentLightboxSlideIndex < (product.images.length - 1)) {
             currentLightboxSlideIndex++;
           } else if (diff < 0 && currentLightboxSlideIndex > 0) {
             currentLightboxSlideIndex--;
           }
           updateLightboxCarousel();
+          updateCarouselDots();
         }
       }, false);
     }
@@ -238,6 +313,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   loadProducts();
 });
+
+function updateGalleryDots(container, activeIndex) {
+  const dots = container.querySelectorAll('.gallery-dot');
+  dots.forEach((dot, index) => {
+    dot.classList.toggle('active', index === activeIndex);
+  });
+}
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.onclick = function(e) {

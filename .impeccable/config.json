@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "styles.css"
+        ],
+        "createdAt": "2026-08-12T05:08:26.474Z",
+        "reason": "Intentional: max-height animation necessary to prevent browser freeze on hamburger menu; grid-template-rows caused complete freeze"
+      }
+    ]
+  }
+}

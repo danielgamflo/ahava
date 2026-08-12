@@ -122,16 +122,16 @@ body {
     left: 0;
     right: 0;
     background: var(--light);
+    display: flex;
     flex-direction: column;
-    gap: 0;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.3s ease-out;
     border-bottom: 1px solid #eee;
   }
 
   .nav-links.active {
-    max-height: 500px;
+    max-height: 400px;
   }
 
   .nav-links li {
@@ -162,7 +162,8 @@ body {
   height: 100%;
 }
 
-.carousel-slide {
+/* Hero Carousel Slides */
+.hero-carousel .carousel-slide {
   display: none;
   position: absolute;
   width: 100%;
@@ -171,12 +172,13 @@ body {
   background-position: center;
   background-color: var(--beige);
   animation: fadeIn 0.8s ease-in-out;
+  top: 0;
+  left: 0;
 }
 
-.carousel-slide.active {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.hero-carousel .carousel-slide.active {
+  display: block;
+  opacity: 1;
 }
 
 @keyframes fadeIn {
@@ -369,10 +371,10 @@ body {
   }
 
   .values-bread-image {
-    width: 140%;
-    height: 190%;
-    left: -120px;
-    top: -450px;
+    width: 170%;
+    height: 110%;
+    left: -160px;
+    top: -10px;
   }
 }
 
@@ -383,11 +385,6 @@ body {
   opacity: 0.7;
   z-index: 1;
   pointer-events: none;
-  /* Mobile */
-  width: 170%;
-  height: 110%;
-  left: -160px;
-  top: -240px;
 }
 
 @media (min-width: 769px) {
@@ -513,18 +510,17 @@ body {
 }
 
 .category-content {
-  display: grid;
-  grid-template-rows: 0fr;
+  max-height: 0;
   overflow: hidden;
-  transition: grid-template-rows 0.4s ease;
+  transition: max-height 0.3s ease-out;
 }
 
 .product-category-section.expanded .category-content {
-  grid-template-rows: 1fr;
+  max-height: 2000px;
 }
 
 .category-body {
-  padding: 2rem;
+  padding: 0.2rem;
   background: inherit;
   min-height: 0;
 }
@@ -535,28 +531,47 @@ body {
   margin-bottom: 1.5rem;
   line-height: 1.8;
   font-weight: 400;
+  padding: 2rem;
+}
+
+.gallery-wrapper {
+  padding: 0;
+  position: relative;
 }
 
 .category-gallery {
   display: flex;
   overflow-x: auto;
   gap: 4px;
-  padding: 1rem 0;
   scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .category-gallery::-webkit-scrollbar {
-  height: 6px;
+  display: none;
 }
 
-.category-gallery::-webkit-scrollbar-track {
-  background: #e0e0e0;
-  border-radius: 0;
+.gallery-dots-container {
+  display: none;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.75rem 0;
 }
 
-.category-gallery::-webkit-scrollbar-thumb {
-  background: var(--olive);
-  border-radius: 0;
+.gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.gallery-dot.active {
+  background: rgba(0, 0, 0, 0.7);
+  width: 24px;
+  border-radius: 4px;
 }
 
 .gallery-item {
@@ -565,13 +580,7 @@ body {
   border-radius: 0;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.gallery-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .gallery-item img {
@@ -591,12 +600,17 @@ body {
   background: rgba(0, 0, 0, 0.8);
   z-index: 1000;
   animation: lightboxFadeIn 0.3s ease;
+  overflow-y: auto;
 }
 
 .lightbox.active {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+body.lightbox-open {
+  overflow: hidden;
 }
 
 @keyframes lightboxFadeIn {
@@ -636,17 +650,25 @@ body {
 
 .lightbox-close {
   position: absolute;
-  top: -40px;
-  right: 0;
-  background: none;
+  top: 20px;
+  right: 20px;
+  background: var(--light);
   border: none;
   color: #000000;
-  font-size: 36px;
+  font-size: 32px;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 1001;
 }
 
 .lightbox-close:hover {
+  background: #f0f0f0;
   transform: rotate(90deg);
 }
 
@@ -667,18 +689,28 @@ body {
 }
 
 .carousel-wrapper {
-  flex: 1;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 3 / 4;
+  position: relative;
+  height: 550px;
 }
 
 .carousel-track {
   display: flex;
   transition: transform 0.4s ease-out;
-  width: 100%;
+  width: 400%;
   height: 100%;
+  cursor: grab;
+}
+
+.carousel-track.dragging {
+  transition: none;
+  cursor: grabbing;
 }
 
 .carousel-slide {
@@ -688,12 +720,40 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .carousel-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+  background: rgba(255, 255, 255, 1);
+  width: 20px;
+  border-radius: 4px;
 }
 
 .product-info {
@@ -704,15 +764,16 @@ body {
 }
 
 .whatsapp-button {
-  background: var(--damasco);
-  color: #000000;
-  border: none;
+  background: #25D366;
+  color: white;
+  border: 1px solid #25D366;
   padding: 16px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   width: 100%;
-  margin-bottom: 2rem;
+  order: 10;
+  margin: 0.2rem 0 0 0;
 }
 
 .whatsapp-button:hover {
@@ -810,12 +871,16 @@ body {
   }
 
   .product-gallery {
-    height: 300px;
-    padding: 1.5rem;
+    padding: 0;
+    height: auto;
+  }
+
+  .carousel-wrapper {
+    height: auto;
   }
 
   .product-info {
-    padding: 1.5rem;
+    padding: 0.2rem;
   }
 
   .product-main-image {
