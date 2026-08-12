@@ -150,6 +150,8 @@ let currentLightboxSlideIndex = 0;
 let touchStartX = 0;
 let lastTouchTime = 0;
 let currentProduct = null;
+let isDragging = false;
+let dragOffset = 0;
 
 function openLightbox(productId) {
   console.log('Opening lightbox for product:', productId);
@@ -230,10 +232,12 @@ function openLightbox(productId) {
   if (track) {
     // Remove old listeners first
     track.removeEventListener('touchstart', handleTouchStart);
+    track.removeEventListener('touchmove', handleTouchMove);
     track.removeEventListener('touchend', handleTouchEnd);
 
     // Add new listeners
     track.addEventListener('touchstart', handleTouchStart, false);
+    track.addEventListener('touchmove', handleTouchMove, false);
     track.addEventListener('touchend', handleTouchEnd, false);
   }
 
@@ -242,28 +246,54 @@ function openLightbox(productId) {
 
 function handleTouchStart(e) {
   if (e.touches && e.touches.length > 0) {
+    isDragging = true;
     touchStartX = e.touches[0].clientX;
     lastTouchTime = Date.now();
+    dragOffset = 0;
+
+    const track = document.getElementById('carouselTrack');
+    if (track) {
+      track.style.transition = 'none';
+    }
+  }
+}
+
+function handleTouchMove(e) {
+  if (!isDragging || !e.touches || e.touches.length === 0) return;
+
+  const currentX = e.touches[0].clientX;
+  dragOffset = currentX - touchStartX;
+
+  const track = document.getElementById('carouselTrack');
+  if (track) {
+    const baseTranslate = -currentLightboxSlideIndex * 100;
+    const dragPercent = (dragOffset / track.parentElement.offsetWidth) * 100;
+    track.style.transform = `translateX(${baseTranslate + dragPercent}%)`;
   }
 }
 
 function handleTouchEnd(e) {
-  if (!e.changedTouches || e.changedTouches.length === 0) return;
-  if (Date.now() - lastTouchTime > 1000) return;
+  if (!isDragging) return;
+  isDragging = false;
 
-  const touchEndX = e.changedTouches[0].clientX;
-  const diff = touchStartX - touchEndX;
+  const track = document.getElementById('carouselTrack');
+  if (!track || !currentProduct) return;
 
-  if (Math.abs(diff) > 50) {
-    e.preventDefault();
-    if (diff > 0 && currentProduct && currentLightboxSlideIndex < (currentProduct.images.length - 1)) {
-      currentLightboxSlideIndex++;
-    } else if (diff < 0 && currentLightboxSlideIndex > 0) {
+  const containerWidth = track.parentElement.offsetWidth;
+  const dragPercent = Math.abs(dragOffset) / containerWidth;
+
+  track.style.transition = 'transform 0.3s ease-out';
+
+  if (dragPercent > 0.2) {
+    if (dragOffset > 0 && currentLightboxSlideIndex > 0) {
       currentLightboxSlideIndex--;
+    } else if (dragOffset < 0 && currentLightboxSlideIndex < currentProduct.images.length - 1) {
+      currentLightboxSlideIndex++;
     }
-    updateLightboxCarousel();
-    updateCarouselDots();
   }
+
+  updateLightboxCarousel();
+  updateCarouselDots();
 }
 
 function updateLightboxCarousel() {
