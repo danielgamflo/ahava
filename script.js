@@ -258,12 +258,15 @@ function handleTouchStart(e) {
     const track = document.getElementById('carouselTrack');
     if (track) {
       track.style.transition = 'none';
+      e.preventDefault();
     }
   }
 }
 
 function handleTouchMove(e) {
   if (!isDragging || !e.touches || e.touches.length === 0) return;
+
+  e.preventDefault();
 
   const currentX = e.touches[0].clientX;
   dragOffset = currentX - touchStartX;
