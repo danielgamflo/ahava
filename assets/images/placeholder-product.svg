@@ -1,0 +1,23 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="damask-product" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect x="5" y="5" width="20" height="20" fill="none" stroke="#f79969" stroke-width="1" opacity="0.2"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="300" height="300" fill="#E8DCC8"/>
+  <rect width="300" height="300" fill="url(#damask-product)"/>
+
+  <!-- Product shape (bread/product silhouette) -->
+  <ellipse cx="150" cy="120" rx="60" ry="70" fill="#f79969" opacity="0.3"/>
+  <rect x="100" y="140" width="100" height="80" fill="#f79969" opacity="0.25"/>
+
+  <!-- Decorative elements -->
+  <circle cx="120" cy="100" r="8" fill="#9B9B79" opacity="0.4"/>
+  <circle cx="150" cy="90" r="7" fill="#9B9B79" opacity="0.4"/>
+  <circle cx="180" cy="105" r="6" fill="#9B9B79" opacity="0.4"/>
+
+  <!-- Text -->
+  <text x="150" y="250" font-size="16" font-weight="bold" text-anchor="middle" fill="#9B9B79" opacity="0.5">Producto Ahava</text>
+</svg>

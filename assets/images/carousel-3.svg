@@ -1,0 +1,19 @@
+<svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="damask3" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect x="10" y="10" width="40" height="40" rx="8" fill="none" stroke="#9B9B79" stroke-width="2" opacity="0.2"/>
+    </pattern>
+  </defs>
+
+  <!-- Background gradient -->
+  <rect width="1600" height="900" fill="#9B9B79" opacity="0.85"/>
+  <rect width="1600" height="900" fill="url(#damask3)"/>
+
+  <!-- Decorative shapes -->
+  <circle cx="1400" cy="200" r="140" fill="#E8DCC8" opacity="0.25"/>
+  <circle cx="150" cy="600" r="160" fill="#f79969" opacity="0.2"/>
+  <rect x="500" y="300" width="600" height="400" fill="none" stroke="#E8DCC8" stroke-width="2" opacity="0.3"/>
+
+  <!-- Text placeholder -->
+  <text x="800" y="450" font-size="64" font-weight="bold" text-anchor="middle" fill="#E8DCC8" opacity="0.6">Portada 3</text>
+</svg>

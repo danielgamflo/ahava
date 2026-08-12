@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahava - Productos Artesanales Naturales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <img src="assets/images/logo.svg" alt="Ahava Logo" class="logo-img">
+      </div>
+      <ul class="nav-links">
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#nosotros">Sobre Nosotros</a></li>
+        <li><a href="#negocios">Para Negocios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Carousel Section -->
+  <section class="hero-carousel">
+    <div class="carousel-container">
+      <div class="carousel-slide active" style="background-image: url('assets/images/carousel-1.svg');"></div>
+      <div class="carousel-slide" style="background-image: url('assets/images/carousel-2.svg');"></div>
+      <div class="carousel-slide" style="background-image: url('assets/images/carousel-3.svg');"></div>
+    </div>
+
+    <div class="carousel-dots">
+      <span class="dot active" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="values-section">
+    <img src="assets/images/tortilla.png" alt="Tortilla de Mamá" class="values-bread-image">
+    <div class="values-wrapper">
+      <p>Productos hechos con amor. Desde la preparación hasta la entrega,</p>
+      <p>cada paso es intencional. Ingredientes naturales, sin aditivos -</p>
+      <p>y ese toque que nace del corazón y que no tiene nombre</p>
+      <p>pero se siente en cada mordida</p>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="productos" class="productos">
+    <!-- Product Categories (Full Width) -->
+    <div class="products-accordion" id="productsAccordion">
+      <!-- Cargado dinámicamente por JavaScript -->
+    </div>
+  </section>
+
+  <!-- Lightbox Modal - Product Detail -->
+  <div id="lightbox" class="lightbox">
+    <button class="lightbox-close">&times;</button>
+    <div class="lightbox-content">
+      <div class="product-detail">
+        <!-- LEFT: Gallery Carousel -->
+        <div class="product-gallery">
+          <div class="carousel-wrapper">
+            <div class="carousel-track" id="carouselTrack"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Info -->
+        <div class="product-info">
+          <button class="whatsapp-button" id="whatsappBtn">💬 Comprar en WhatsApp</button>
+          <div class="product-category" id="productCategory"></div>
+          <h1 class="product-title" id="productTitle"></h1>
+          <p class="product-description" id="productDescription"></p>
+          <div class="product-specs" id="productSpecs"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <section id="nosotros" class="nosotros">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-image">
+          <img src="assets/images/placeholder-cami.svg" alt="Cami, dueña de Ahava">
+        </div>
+        <div class="about-text">
+          <h2>Sobre Nosotros</h2>
+          <p>Soy Cami, y Ahava es mi pasión. Cada producto es hecho con ingredientes naturales y mucho cuidado en mi cocina. Creo en la calidad, en los ingredientes puros, y en llevar comida deliciosa a tu mesa.</p>
+          <p>Mi objetivo es crecer, invertir en mejores máquinas, y compartir mis panes, bombones y barras de cereal con muchas más personas.</p>
+          <div class="social-links">
+            <a href="https://instagram.com" target="_blank">Instagram</a>
+            <a href="https://wa.me" target="_blank">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Business Section -->
+  <section id="negocios" class="negocios">
+    <div class="container">
+      <div class="business-card">
+        <h2>¿Quieres nuestros panes en tu negocio?</h2>
+        <p>Si eres dueño de una cafetería, restaurante o local, nos encantaría hablar sobre una posible colaboración.</p>
+        <form class="business-form" id="businessForm">
+          <input type="text" placeholder="Tu nombre" required>
+          <input type="email" placeholder="Tu email" required>
+          <input type="text" placeholder="Nombre de tu negocio" required>
+          <textarea placeholder="Cuéntanos sobre tu negocio" rows="4" required></textarea>
+          <button type="submit" class="cta-button">Enviar Propuesta</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contacto" class="contacto">
+    <div class="container">
+      <h2>Contacto</h2>
+      <div class="contact-links">
+        <a href="https://wa.me/56XXXXXXXXX" class="contact-button">
+          <span>💬 WhatsApp</span>
+        </a>
+        <a href="mailto:info@ahava.cl" class="contact-button">
+          <span>📧 Email</span>
+        </a>
+        <a href="https://instagram.com" class="contact-button">
+          <span>📸 Instagram</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Ahava. Todos los derechos reservados.</p>
+      <p>Hecho con ❤️ por Cami</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

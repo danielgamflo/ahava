@@ -1,0 +1,18 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="logo-pattern" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+      <rect x="5" y="5" width="12" height="12" fill="none" stroke="#9B9B79" stroke-width="1" opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#E8DCC8" stroke="#9B9B79" stroke-width="2"/>
+  <circle cx="100" cy="100" r="95" fill="url(#logo-pattern)"/>
+
+  <!-- Decorative elements -->
+  <circle cx="70" cy="70" r="25" fill="none" stroke="#f79969" stroke-width="2" opacity="0.6"/>
+  <circle cx="130" cy="130" r="25" fill="none" stroke="#9B9B79" stroke-width="2" opacity="0.6"/>
+
+  <!-- Text: Ahava -->
+  <text x="100" y="115" font-size="48" font-weight="bold" text-anchor="middle" font-family="Georgia, serif" fill="#9B9B79">Ahava</text>
+</svg>

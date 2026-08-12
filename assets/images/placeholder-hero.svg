@@ -1,0 +1,20 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background pattern -->
+  <defs>
+    <pattern id="damask" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <rect x="8" y="8" width="30" height="30" fill="none" stroke="#f79969" stroke-width="1.5" opacity="0.3"/>
+      <rect x="15" y="15" width="24" height="24" fill="none" stroke="#f79969" stroke-width="1" opacity="0.2"/>
+    </pattern>
+  </defs>
+
+  <rect width="400" height="400" fill="#E8DCC8"/>
+  <rect width="400" height="400" fill="url(#damask)"/>
+
+  <!-- Decorative shapes -->
+  <circle cx="80" cy="100" r="50" fill="none" stroke="#f79969" stroke-width="2" opacity="0.4"/>
+  <circle cx="320" cy="300" r="70" fill="none" stroke="#9B9B79" stroke-width="2" opacity="0.3"/>
+  <rect x="150" y="150" width="100" height="100" fill="none" stroke="#9B9B79" stroke-width="2" opacity="0.5"/>
+
+  <!-- Text -->
+  <text x="200" y="200" font-size="32" font-weight="bold" text-anchor="middle" fill="#9B9B79" opacity="0.6">Productos Ahava</text>
+</svg>
