@@ -421,7 +421,7 @@ body {
 .product-category-section {
   margin: 0;
   padding: 0;
-  border-radius: 0;
+  border-radius: 12px 12px 0 0;
   overflow: hidden;
   background: #f9f7f4;
   transition: all 0.3s ease;
