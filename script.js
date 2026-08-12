@@ -232,7 +232,7 @@ function openLightbox(productId) {
   }
 
   // Add touch listeners for carousel
-  const track = document.getElementById('carouselTrack');
+  track = document.getElementById('carouselTrack');
   if (track) {
     // Remove old listeners first
     track.removeEventListener('touchstart', handleTouchStart);
