@@ -265,7 +265,7 @@ function handleTouchMove(e) {
   dragOffset = currentX - touchStartX;
 
   const track = document.getElementById('carouselTrack');
-  if (track) {
+  if (track && track.parentElement && track.parentElement.offsetWidth > 0) {
     const baseTranslate = -currentLightboxSlideIndex * 100;
     const dragPercent = (dragOffset / track.parentElement.offsetWidth) * 100;
     track.style.transform = `translateX(${baseTranslate + dragPercent}%)`;
