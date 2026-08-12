@@ -735,7 +735,7 @@ body.lightbox-open {
 
 .carousel-dots {
   position: absolute;
-  bottom: 10px;
+  bottom: -45px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
