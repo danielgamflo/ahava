@@ -465,26 +465,26 @@ body {
   transition: all 0.3s ease;
 }
 
-.product-category-section:nth-child(1) .category-header {
+.product-category-wrapper.pan-de-molde .category-header {
   background: var(--olive);
   color: #000000;
 }
 
-.product-category-section:nth-child(2) .category-header {
+.product-category-wrapper.tortilla-de-mama .category-header {
   background: var(--beige);
   color: var(--text);
 }
 
-.product-category-section:nth-child(2) .category-header:hover {
+.product-category-wrapper.tortilla-de-mama .category-header:hover {
   background: #d9cdb8;
 }
 
-.product-category-section:nth-child(3) .category-header {
+.product-category-wrapper.bombones .category-header {
   background: var(--damasco);
   color: #000000;
 }
 
-.product-category-section:nth-child(4) .category-header {
+.product-category-wrapper.barras-de-cereal .category-header {
   background: var(--olive);
   color: #000000;
 }
