@@ -444,11 +444,11 @@ body {
 }
 
 .product-category-wrapper.tortilla-de-mama .product-category-section {
-  background: var(--damasco);
+  background: var(--beige);
 }
 
 .product-category-wrapper.bombones .product-category-section {
-  background: var(--beige);
+  background: var(--damasco);
 }
 
 .product-category-wrapper.barras-de-cereal .product-category-section {
@@ -476,7 +476,7 @@ body {
 }
 
 .product-category-wrapper.tortilla-de-mama .category-header:hover {
-  background: #d9cdb8;
+  background: var(--beige);
 }
 
 .product-category-wrapper.bombones .category-header {
@@ -523,6 +523,19 @@ body {
 
 .product-category-section.expanded .category-content {
   max-height: 2000px;
+  background: var(--beige);
+}
+
+.product-category-wrapper.bombones .product-category-section.expanded .category-content {
+  background: var(--damasco);
+}
+
+.product-category-wrapper.pan-de-molde .product-category-section.expanded .category-content {
+  background: var(--olive);
+}
+
+.product-category-wrapper.barras-de-cereal .product-category-section.expanded .category-content {
+  background: var(--olive);
 }
 
 .category-body {
