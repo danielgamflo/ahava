@@ -149,11 +149,13 @@ function renderProductsByCategory(products) {
 let currentLightboxSlideIndex = 0;
 let touchStartX = 0;
 let lastTouchTime = 0;
+let currentProduct = null;
 
 function openLightbox(productId) {
   console.log('Opening lightbox for product:', productId);
   const product = allProducts.find(p => p.id === productId);
   if (!product) return;
+  currentProduct = product;
 
   document.body.classList.add('lightbox-open');
   currentLightboxSlideIndex = 0;
@@ -295,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const diff = touchStartX - touchEndX;
 
         if (Math.abs(diff) > 50) {
-          if (diff > 0 && currentLightboxSlideIndex < (product.images.length - 1)) {
+          if (diff > 0 && currentProduct && currentLightboxSlideIndex < (currentProduct.images.length - 1)) {
             currentLightboxSlideIndex++;
           } else if (diff < 0 && currentLightboxSlideIndex > 0) {
             currentLightboxSlideIndex--;
