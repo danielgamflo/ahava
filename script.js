@@ -167,7 +167,7 @@ function openLightbox(productId) {
   currentLightboxSlideIndex = 0;
 
   // Carousel
-  const track = document.getElementById('carouselTrack');
+  let track = document.getElementById('carouselTrack');
   console.log('Track found:', !!track);
   track.innerHTML = '';
   track.style.transform = 'translateX(0%)';
