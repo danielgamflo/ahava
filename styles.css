@@ -747,13 +747,15 @@ body.lightbox-open {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--olive);
+  opacity: 0.5;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .carousel-dot.active {
-  background: rgba(255, 255, 255, 1);
+  background: var(--olive);
+  opacity: 1;
   width: 20px;
   border-radius: 4px;
 }

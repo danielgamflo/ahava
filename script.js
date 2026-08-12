@@ -281,10 +281,15 @@ function handleTouchEnd(e) {
   isDragging = false;
 
   const track = document.getElementById('carouselTrack');
-  if (!track || !currentProduct) return;
+  if (!track || !currentProduct) {
+    console.log('Touch end: track or currentProduct missing', { track: !!track, currentProduct: !!currentProduct });
+    return;
+  }
 
   const containerWidth = track.parentElement.offsetWidth;
   const dragPercent = Math.abs(dragOffset) / containerWidth;
+
+  console.log('Touch end:', { dragOffset, containerWidth, dragPercent, currentSlideIndex: currentLightboxSlideIndex, totalImages: currentProduct.images.length });
 
   track.style.transition = 'transform 0.3s ease-out';
 
