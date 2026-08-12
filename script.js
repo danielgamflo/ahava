@@ -255,6 +255,7 @@ function handleTouchEnd(e) {
   const diff = touchStartX - touchEndX;
 
   if (Math.abs(diff) > 50) {
+    e.preventDefault();
     if (diff > 0 && currentProduct && currentLightboxSlideIndex < (currentProduct.images.length - 1)) {
       currentLightboxSlideIndex++;
     } else if (diff < 0 && currentLightboxSlideIndex > 0) {
