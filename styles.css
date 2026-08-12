@@ -124,14 +124,17 @@ body {
     background: var(--light);
     display: flex;
     flex-direction: column;
-    max-height: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
     border-bottom: 1px solid #eee;
   }
 
   .nav-links.active {
-    max-height: 400px;
+    transform: scaleY(1);
+    opacity: 1;
   }
 
   .nav-links li {
@@ -400,7 +403,7 @@ body {
 /* Products Section */
 .productos {
   padding: 0;
-  background: var(--light);
+  background: transparent;
 }
 
 .productos .container h2 {
@@ -423,8 +426,11 @@ body {
   padding: 0;
   border-radius: 12px 12px 0 0;
   overflow: hidden;
-  background: #f9f7f4;
   transition: all 0.3s ease;
+  width: 100%;
+}
+
+.product-category-wrapper {
   width: 100vw;
   position: relative;
   left: 50%;
@@ -433,19 +439,19 @@ body {
   margin-right: -50vw;
 }
 
-.product-category-section:nth-child(1) {
+.product-category-wrapper.pan-de-molde .product-category-section {
   background: var(--olive);
 }
 
-.product-category-section:nth-child(2) {
-  background: var(--beige);
-}
-
-.product-category-section:nth-child(3) {
+.product-category-wrapper.tortilla-de-mama .product-category-section {
   background: var(--damasco);
 }
 
-.product-category-section:nth-child(4) {
+.product-category-wrapper.bombones .product-category-section {
+  background: var(--beige);
+}
+
+.product-category-wrapper.barras-de-cereal .product-category-section {
   background: var(--olive);
 }
 

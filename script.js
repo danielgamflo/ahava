@@ -71,6 +71,10 @@ function renderProductsByCategory(products) {
   accordion.innerHTML = '';
 
   Object.entries(grouped).forEach(([category, categoryProducts]) => {
+    const wrapper = document.createElement('div');
+    const categorySlug = category.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[̀-ͯ]/g, '');
+    wrapper.className = 'product-category-wrapper ' + categorySlug;
+
     const section = document.createElement('div');
     section.className = 'product-category-section';
 
@@ -146,7 +150,8 @@ function renderProductsByCategory(products) {
       section.classList.toggle('expanded');
     };
 
-    accordion.appendChild(section);
+    wrapper.appendChild(section);
+    accordion.appendChild(wrapper);
   });
 }
 
