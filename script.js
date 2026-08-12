@@ -166,39 +166,37 @@ function openLightbox(productId) {
   document.body.classList.add('lightbox-open');
   currentLightboxSlideIndex = 0;
 
-  // Carousel
-  let track = document.getElementById('carouselTrack');
-  console.log('Track found:', !!track);
-  track.innerHTML = '';
-  track.style.transform = 'translateX(0%)';
-
+  // Set main image
+  const mainImage = document.getElementById('mainProductImage');
   if (product.images && product.images.length > 0) {
-    product.images.forEach((imagePath) => {
-      const slide = document.createElement('div');
-      slide.className = 'carousel-slide';
-      const img = document.createElement('img');
-      img.src = 'assets/images/' + imagePath;
-      img.alt = product.name;
-      img.style.width = '100%';
-      img.style.height = '100%';
-      img.style.objectFit = 'cover';
-      slide.appendChild(img);
-      track.appendChild(slide);
-    });
+    mainImage.src = 'assets/images/' + product.images[0];
+    mainImage.alt = product.name;
   }
 
-  // Create carousel dots
-  const dotsContainer = document.getElementById('carouselDots');
-  dotsContainer.innerHTML = '';
-  for (let i = 0; i < 4; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-    dot.onclick = function() {
-      currentLightboxSlideIndex = i;
-      updateLightboxCarousel();
-      updateCarouselDots();
-    };
-    dotsContainer.appendChild(dot);
+  // Create thumbnails
+  const thumbnailsContainer = document.getElementById('thumbnailsContainer');
+  thumbnailsContainer.innerHTML = '';
+
+  if (product.images && product.images.length > 0) {
+    product.images.forEach((imagePath, index) => {
+      const thumbnail = document.createElement('img');
+      thumbnail.src = 'assets/images/' + imagePath;
+      thumbnail.alt = product.name;
+      thumbnail.className = 'thumbnail' + (index === 0 ? ' active' : '');
+      thumbnail.style.cursor = 'pointer';
+
+      thumbnail.onclick = function() {
+        currentLightboxSlideIndex = index;
+        mainImage.src = 'assets/images/' + imagePath;
+
+        // Update active thumbnail
+        document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+          thumb.classList.toggle('active', i === index);
+        });
+      };
+
+      thumbnailsContainer.appendChild(thumbnail);
+    });
   }
 
   document.getElementById('productCategory').textContent = product.category;
@@ -231,19 +229,7 @@ function openLightbox(productId) {
     };
   }
 
-  // Add touch listeners for carousel
-  track = document.getElementById('carouselTrack');
-  if (track) {
-    // Remove old listeners first
-    track.removeEventListener('touchstart', handleTouchStart);
-    track.removeEventListener('touchmove', handleTouchMove);
-    track.removeEventListener('touchend', handleTouchEnd);
-
-    // Add new listeners
-    track.addEventListener('touchstart', handleTouchStart, false);
-    track.addEventListener('touchmove', handleTouchMove, false);
-    track.addEventListener('touchend', handleTouchEnd, false);
-  }
+  // Touch listeners removed - using click-based gallery instead
 
   document.getElementById('lightbox').classList.add('active');
 }
