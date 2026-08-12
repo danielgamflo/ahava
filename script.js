@@ -177,6 +177,23 @@ document.addEventListener('DOMContentLoaded', function() {
   showSlide(currentSlideIndex);
   // autoPlayCarousel();
 
+  // Hamburger menu
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const navLinks = document.getElementById('navLinks');
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', function() {
+      hamburgerBtn.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function() {
+        hamburgerBtn.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  }
+
   const lightboxClose = document.querySelector('.lightbox-close');
   if (lightboxClose) lightboxClose.onclick = closeLightbox;
 
@@ -233,12 +250,19 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Parallax effect for values section bread image
+let parallaxOffset = 0;
+let targetParallaxOffset = 0;
 let ticking = false;
+
 window.addEventListener('scroll', () => {
+  targetParallaxOffset = window.scrollY * 0.3;
   if (!ticking) {
     requestAnimationFrame(() => {
       const img = document.querySelector('.values-bread-image');
-      if (img) img.style.transform = `translateY(${window.scrollY * 0.3}px)`;
+      if (img) {
+        parallaxOffset += (targetParallaxOffset - parallaxOffset) * 0.15;
+        img.style.transform = `translateY(${parallaxOffset}px)`;
+      }
       ticking = false;
     });
     ticking = true;
