@@ -7,8 +7,7 @@
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-/* TODO: reemplazar por el número real de Ahava (formato 56XXXXXXXXX) */
-const WHATSAPP_NUMBER = '56XXXXXXXXX';
+const WHATSAPP_NUMBER = '56968284286';
 const CONTACT_EMAIL = 'info@ahava.cl';
 
 let allProducts = [];
