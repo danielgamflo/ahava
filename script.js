@@ -156,6 +156,74 @@ async function loadProducts() {
   }
 }
 
+const clp = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+
+/* Imagen real o marca de espera. No se usa un SVG gris genérico: una
+   pieza en los colores de la casa dice "foto pendiente" sin parecer rota. */
+function buildMedia(product) {
+  const hasPhoto = product.image && !product.image.includes('placeholder');
+
+  if (hasPhoto) {
+    const img = document.createElement('img');
+    img.src = `assets/images/${product.image}`;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    return img;
+  }
+
+  const mark = document.createElement('span');
+  mark.className = 'media-pending';
+  mark.innerHTML = '<svg aria-hidden="true" focusable="false"><use href="#i-grain"/></svg>';
+  return mark;
+}
+
+function buildCard(product, index, { featured = false, showPrice = false } = {}) {
+  const card = document.createElement('button');
+  card.type = 'button';
+  card.className = featured ? 'feature' : 'product-card';
+  card.style.setProperty('--i', String(index));
+  card.setAttribute('aria-label', `Ver ficha de ${product.name}`);
+
+  const media = document.createElement('span');
+  media.className = featured ? 'feature-media' : 'card-media';
+  media.appendChild(buildMedia(product));
+
+  const text = document.createElement('span');
+  text.className = featured ? 'feature-text' : 'card-text';
+
+  const name = document.createElement('span');
+  name.className = featured ? 'feature-name' : 'card-name';
+  name.textContent = product.name;
+  text.appendChild(name);
+
+  if (featured) {
+    const blurb = document.createElement('span');
+    blurb.className = 'feature-blurb';
+    blurb.textContent = product.detailedDescription || product.description || '';
+    text.appendChild(blurb);
+  }
+
+  const meta = document.createElement('span');
+  meta.className = featured ? 'feature-meta' : 'card-meta';
+  meta.textContent = [product.weight, showPrice && product.price && clp.format(product.price)]
+    .filter(Boolean)
+    .join(' · ');
+  text.appendChild(meta);
+
+  if (featured) {
+    const cue = document.createElement('span');
+    cue.className = 'feature-cue';
+    cue.innerHTML =
+      'Ver ficha <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg>';
+    text.appendChild(cue);
+  }
+
+  card.append(media, text);
+  card.addEventListener('click', () => openLightbox(product.id));
+  return card;
+}
+
 function renderProductsByCategory(products) {
   const accordion = document.getElementById('productsAccordion');
   const grouped = groupByCategory(products);
@@ -203,65 +271,38 @@ function renderProductsByCategory(products) {
     const body = document.createElement('div');
     body.className = 'category-body';
 
-    const description = document.createElement('p');
-    description.className = 'category-description';
-    description.textContent = `Descubre nuestras ${items.length} ${plural} de ${category.toLowerCase()}.`;
+    // La bandeja: superficie clara que levanta la fotografía sobre el
+    // color de la banda. Sin ella el pan se apaga contra el olivo.
+    const tray = document.createElement('div');
+    tray.className = 'category-tray';
 
-    const galleryWrapper = document.createElement('div');
-    galleryWrapper.className = 'gallery-wrapper';
+    // Precio: si toda la categoría comparte valor se dice una vez al pie;
+    // repetirlo en cada ficha sería ruido. En cuanto los precios se
+    // separen, cada ficha muestra el suyo. El código decide solo.
+    const prices = [...new Set(items.map((p) => p.price).filter(Boolean))];
+    const sharedPrice = prices.length === 1 ? prices[0] : null;
+    const showPrice = !sharedPrice;
 
-    const gallery = document.createElement('div');
-    gallery.className = 'category-gallery';
+    // El destacado es el primero de la categoría en data.json.
+    // Reordenar ahí cambia la portada, sin tocar código.
+    const [lead, ...rest] = items;
+    tray.appendChild(buildCard(lead, 0, { featured: true, showPrice }));
 
-    items.forEach((product) => {
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'gallery-item';
-      item.setAttribute('aria-label', `Ver ficha de ${product.name}`);
+    if (rest.length) {
+      const grid = document.createElement('div');
+      grid.className = 'product-grid';
+      rest.forEach((product, i) => grid.appendChild(buildCard(product, i + 1, { showPrice })));
+      tray.appendChild(grid);
+    }
 
-      const img = document.createElement('img');
-      img.src = product.image ? `assets/images/${product.image}` : 'assets/images/placeholder-product.svg';
-      img.alt = '';
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.width = 300;
-      img.height = 400;
+    if (sharedPrice) {
+      const note = document.createElement('p');
+      note.className = 'tray-note';
+      note.textContent = `Cada uno a ${clp.format(sharedPrice)}`;
+      tray.appendChild(note);
+    }
 
-      item.appendChild(img);
-      item.addEventListener('click', () => openLightbox(product.id));
-      gallery.appendChild(item);
-    });
-
-    // Puntos de posición: solo cuando el carrete desborda (móvil/tablet).
-    const dots = document.createElement('div');
-    dots.className = 'gallery-dots-container';
-    items.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = `gallery-dot${i === 0 ? ' active' : ''}`;
-      dot.setAttribute('aria-label', `Ir a la imagen ${i + 1} de ${items.length}`);
-      dot.addEventListener('click', () => {
-        const target = gallery.children[i];
-        if (target) gallery.scrollTo({ left: target.offsetLeft - gallery.offsetLeft, behavior: 'smooth' });
-      });
-      dots.appendChild(dot);
-    });
-
-    let scrollFrame = null;
-    gallery.addEventListener('scroll', () => {
-      if (scrollFrame) return;
-      scrollFrame = requestAnimationFrame(() => {
-        scrollFrame = null;
-        const first = gallery.children[0];
-        if (!first) return;
-        const step = first.offsetWidth + 8;
-        const active = Math.round(gallery.scrollLeft / step);
-        [...dots.children].forEach((dot, i) => dot.classList.toggle('active', i === active));
-      });
-    });
-
-    galleryWrapper.append(gallery, dots);
-    body.append(description, galleryWrapper);
+    body.appendChild(tray);
     content.appendChild(body);
     section.append(heading, content);
 
