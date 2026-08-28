@@ -170,38 +170,55 @@
       text-shadow: 0 1px 16px rgba(31, 33, 24, 0.55), 0 1px 3px rgba(31, 33, 24, 0.35);
     }
 
-    /* Filete que separa el mensaje de las acciones. Está para agrupar,
-       no para adornar: bajo esta línea todo es "cómo contactarnos". */
+    /* Marca corta y gruesa en lugar de una línea de lado a lado. Una
+       raya fina cruzando toda la caja es lenguaje de interfaz; esta se
+       lee como un trazo impreso. Separa igual: bajo ella todo es
+       "cómo contactarnos". */
+    .rule {
+      width: 68px;
+      height: 3px;
+      margin: clamp(2rem, 5vw, 2.6rem) auto clamp(1.6rem, 4.2vw, 2.1rem);
+      background: var(--cream);
+      opacity: 0.6;
+    }
+
     .actions {
-      margin-top: clamp(2rem, 5vw, 2.6rem);
-      padding-top: clamp(1.6rem, 4.2vw, 2.1rem);
-      border-top: 1px solid rgba(248, 243, 236, 0.28);
       display: flex;
       flex-direction: column;
-      gap: 0.7rem;
+      gap: 0.75rem;
     }
 
     .actions-primary { display: flex; gap: 0.7rem; }
     .actions-primary .btn { flex: 1 1 0; min-width: 0; }
 
+    /* Etiquetas impresas, no píldoras de aplicación.
+       - Esquina apenas cortada, y con los cuatro radios distintos: un
+         troquel perfecto delata la máquina. Es sutil a propósito.
+       - Filete de tinta alrededor, como el borde de una etiqueta de
+         frasco. Es lo que más aleja la caja del acabado "premium".
+       - Versalitas espaciadas: el mismo recurso que ya usa el logotipo
+         en "AMOR HECHO SABOR". */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.6rem;
-      min-height: 54px;
-      padding: 0.9rem 1.35rem;
-      border-radius: var(--r-pill);
+      gap: 0.65rem;
+      min-height: 56px;
+      padding: 0.95rem 1.35rem;
+      border-radius: 7px 5px 8px 6px;
+      border: 2px solid var(--ink);
       font-family: inherit;
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: -0.005em;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.075em;
       text-decoration: none;
       cursor: pointer;
+      /* Sombra corta y baja: la pieza está apoyada, no levitando. */
+      box-shadow: 0 3px 10px -3px rgba(31, 33, 24, 0.6);
       transition:
-        transform 220ms var(--ease-out),
-        box-shadow 220ms var(--ease-out),
-        background-color 220ms var(--ease-out);
+        transform 160ms var(--ease-out),
+        background-color 200ms var(--ease-out);
     }
 
     .btn .icon {
@@ -209,7 +226,7 @@
       flex: none;
       fill: none;
       stroke: currentColor;
-      stroke-width: 1.75;
+      stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
@@ -222,14 +239,12 @@
     .btn-whatsapp {
       background: var(--damasco);
       color: var(--ink);            /* 7.54:1 */
-      box-shadow: 0 8px 22px -6px rgba(31, 33, 24, 0.55);
     }
-    .btn-whatsapp:hover { background: #F58A52; }
+    .btn-whatsapp:hover { background: #EF8A52; }
 
     .btn-instagram {
       background: var(--olive-deep);
       color: var(--cream);          /* 5.64:1 */
-      box-shadow: 0 8px 22px -6px rgba(31, 33, 24, 0.55);
     }
     .btn-instagram:hover { background: #4E553D; }
 
@@ -238,12 +253,12 @@
     .btn-mail {
       background: var(--cream);
       color: var(--ink);            /* 14.8:1 */
-      box-shadow: 0 8px 22px -6px rgba(31, 33, 24, 0.5);
     }
-    .btn-mail:hover { background: #FFFFFF; }
+    .btn-mail:hover { background: #EFE7DA; }
 
-    .btn:hover { transform: translateY(-2px); }
-    .btn:active { transform: translateY(0); }
+    /* Al pulsar se hunde. No se levanta: una etiqueta pegada al pan no
+       flota, y ese despegue era buena parte del aire "premium". */
+    .btn:active { transform: translateY(2px); }
 
     .btn:focus-visible {
       outline: 3px solid var(--cream);
@@ -268,7 +283,7 @@
       .slide, .slide img, .content { animation: none; }
       .slide:nth-child(1) { opacity: 1; }
       .btn { transition-duration: 1ms; }
-      .btn:hover, .btn:active { transform: none; }
+      .btn:active { transform: none; }
     }
   </style>
 </head>
@@ -290,6 +305,8 @@
       <h1>Muy pronto, tu espacio para pedir tus panes</h1>
 
       <p class="lede">Estamos amasando los últimos detalles. Mientras tanto, escríbenos y te contamos qué hay disponible.</p>
+
+      <div class="rule" aria-hidden="true"></div>
 
       <div class="actions">
         <div class="actions-primary">
