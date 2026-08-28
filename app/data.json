@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "category": "Pan de Molde",
+      "name": "Molde Integral con Semillas",
+      "weight": "650gr",
+      "price": 2000,
+      "description": "Pan integral artesanal con semillas de sésamo tostadas",
+      "detailedDescription": "Nuestro pan integral con semillas es la opción perfecta para comenzar el día con energía. Hecho con harina integral 100% natural y semillas tostadas, ofrece una combinación deliciosa de sabor y nutrición.",
+      "calories": "250",
+      "size": {
+        "length": "22 cm",
+        "height": "20 cm",
+        "depth": "12 cm"
+      },
+      "seeds": ["Linaza", "Zapallo", "Chía"],
+      "flour": "Integral 100%",
+      "fresh": "Hasta 3 días",
+      "frozen": "Hasta 3 meses",
+      "image": "pan-de-molde/pan-de-molde-integral-semillas-01.jpg",
+      "images": ["pan-de-molde/integral/pan-de-molde-01.jpg", "pan-de-molde/integral/pan-de-molde-02.jpg", "pan-de-molde/integral/pan-de-molde-03.jpg", "pan-de-molde/integral/pan-de-molde-04.jpg"]
+    },
+    {
+      "id": 2,
+      "category": "Pan de Molde",
+      "name": "Semillas de Calabaza",
+      "weight": "650gr",
+      "price": 2000,
+      "description": "Pan integral con semillas de calabaza crujientes",
+      "image": "pan-de-molde/pan-de-molde-integral-semillas-02.jpg"
+    },
+    {
+      "id": 3,
+      "category": "Pan de Molde",
+      "name": "Multisemilla",
+      "weight": "650gr",
+      "price": 2000,
+      "description": "Chía, sésamo, calabaza. La combinación perfecta",
+      "image": "pan-de-molde/pan-de-molde-integral-semillas-03.jpg"
+    },
+    {
+      "id": 4,
+      "category": "Pan de Molde",
+      "name": "Sin Semilla",
+      "weight": "650gr",
+      "price": 2000,
+      "description": "Pan integral puro y natural, sin semillas",
+      "image": "pan-de-molde/pan-de-molde-integral-semillas-04.jpg"
+    },
+    {
+      "id": 5,
+      "category": "Tortilla de Mamá",
+      "name": "Tortilla de Mamá",
+      "weight": "500gr",
+      "price": 2000,
+      "description": "Receta especial, hecha con amor",
+      "image": "placeholder-product.svg"
+    },
+    {
+      "id": 6,
+      "category": "Bombones",
+      "name": "Chocolate Amargo + Mantequilla de Maní",
+      "weight": "80gr",
+      "price": 2000,
+      "description": "Intenso y delicioso. Para los amantes del chocolate puro",
+      "image": "placeholder-product.svg"
+    },
+    {
+      "id": 7,
+      "category": "Bombones",
+      "name": "Chocolate Dulce + Mantequilla de Maní",
+      "weight": "80gr",
+      "price": 2000,
+      "description": "Suave y cremoso con toque de mantequilla de maní",
+      "image": "placeholder-product.svg"
+    },
+    {
+      "id": 8,
+      "category": "Bombones",
+      "name": "Chocolate Blanco + Mantequilla de Maní",
+      "weight": "80gr",
+      "price": 2000,
+      "description": "Elegante y sofisticado, perfecto para regalar",
+      "image": "placeholder-product.svg"
+    },
+    {
+      "id": 9,
+      "category": "Barras de Cereal",
+      "name": "Cubierta con Chocolate",
+      "weight": "variar",
+      "price": 2000,
+      "description": "Cereal integral con cobertura de chocolate derretida",
+      "image": "placeholder-product.svg"
+    },
+    {
+      "id": 10,
+      "category": "Barras de Cereal",
+      "name": "Miel + Chocolate",
+      "weight": "variar",
+      "price": 2000,
+      "description": "Dulzura natural de miel con chocolate premium",
+      "image": "placeholder-product.svg"
+    },
+    {
+      "id": 11,
+      "category": "Barras de Cereal",
+      "name": "Chocolate + Multisemilla",
+      "weight": "variar",
+      "price": 2000,
+      "description": "Combinación crocante de semillas y chocolate",
+      "image": "placeholder-product.svg"
+    },
+    {
+      "id": 12,
+      "category": "Barras de Cereal",
+      "name": "Miel + Multisemilla",
+      "weight": "variar",
+      "price": 2000,
+      "description": "Lo mejor de la naturaleza en cada bite",
+      "image": "placeholder-product.svg"
+    }
+  ]
+}

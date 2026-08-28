@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahava — Panes, bombones y barras artesanales</title>
+  <meta name="description" content="Ahava: pan de molde integral, tortilla de mamá, bombones y barras de cereal. Hechos a mano con ingredientes naturales, sin aditivos.">
+  <meta name="theme-color" content="#6c7555">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ahava — Panes, bombones y barras artesanales">
+  <meta property="og:description" content="Productos hechos con amor. Ingredientes naturales, sin aditivos.">
+  <meta property="og:image" content="assets/images/carousel-1.jpg">
+  <meta property="og:locale" content="es_CL">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+  <!-- Sistema de iconos Ahava -------------------------------------------
+       Trazo 1.75 en retícula de 24, uniones y remates redondeados para
+       conversar con las terminaciones orgánicas del logotipo.
+       Para añadir un icono: replicar viewBox y grosor de trazo. -->
+  <svg class="icon-sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-chevron" viewBox="0 0 24 24">
+        <path d="m6.5 9.75 5.5 5.5 5.5-5.5"/>
+      </symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24">
+        <path d="M20.5 11.7a8.5 8.5 0 0 1-12.4 7.5L3.5 20.5l1.4-4.5A8.5 8.5 0 1 1 20.5 11.7Z"/>
+        <path d="M9.4 9.1c.3-.6 1-.7 1.4-.3l.7.7c.3.3.3.7.1 1l-.3.5c-.1.2-.1.5.1.7l1.4 1.4c.2.2.5.2.7.1l.5-.3c.3-.2.8-.2 1 .1l.7.7c.4.4.3 1.1-.3 1.4-1.3.7-2.9.2-4.4-1.3s-2-3.1-1.6-4.7Z"/>
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+        <path d="M3.5 7.5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z"/>
+        <path d="m4.2 8 6.9 4.8a1.6 1.6 0 0 0 1.8 0L19.8 8"/>
+      </symbol>
+      <symbol id="i-instagram" viewBox="0 0 24 24">
+        <rect x="3.5" y="3.5" width="17" height="17" rx="5.2"/>
+        <circle cx="12" cy="12" r="3.9"/>
+        <circle cx="16.9" cy="7.1" r="1.15" fill="currentColor" stroke="none"/>
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <path d="m6.75 6.75 10.5 10.5M17.25 6.75 6.75 17.25"/>
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M4.5 12h14.5M13.2 6.2 19 12l-5.8 5.8"/>
+      </symbol>
+      <!-- Espiga: marca de acento de la casa -->
+      <symbol id="i-grain" viewBox="0 0 24 24">
+        <path d="M12 21.5V7.4"/>
+        <path d="M12 13.9c-2.7 0-4.7-2-4.7-4.7 2.7 0 4.7 2 4.7 4.7Z"/>
+        <path d="M12 13.9c2.7 0 4.7-2 4.7-4.7-2.7 0-4.7 2-4.7 4.7Z"/>
+        <path d="M12 8.2c-2.7 0-4.7-2-4.7-4.7 2.7 0 4.7 2 4.7 4.7Z"/>
+        <path d="M12 8.2c2.7 0 4.7-2 4.7-4.7-2.7 0-4.7 2-4.7 4.7Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#productos">Saltar al catálogo</a>
+
+  <!-- Navegación -->
+  <header class="navbar" id="navbar">
+    <nav class="nav-container" aria-label="Principal">
+      <a href="#inicio" class="logo" aria-label="Ahava, ir al inicio">
+        <img src="assets/images/logo.svg" alt="" width="96" height="35" class="logo-img">
+      </a>
+      <button class="hamburger" id="hamburgerBtn" type="button"
+              aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#nosotros">Sobre Nosotros</a></li>
+        <li><a href="#negocios">Para Negocios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="inicio">
+    <!-- Carrusel de portada -->
+    <section class="hero-carousel" aria-label="Galería de portada" aria-roledescription="carrusel">
+      <div class="carousel-container" id="heroSlides">
+        <div class="carousel-slide active" role="group" aria-roledescription="diapositiva" aria-label="1 de 3: pan integral recién cortado" style="background-image: url('assets/images/carousel-1.jpg');"></div>
+        <div class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="2 de 3: masa en preparación" style="background-image: url('assets/images/carousel-2.jpg');"></div>
+        <div class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="3 de 3: hogazas terminadas" style="background-image: url('assets/images/carousel-3.jpg');"></div>
+      </div>
+
+      <div class="carousel-dots" role="tablist" aria-label="Elegir imagen de portada">
+        <button type="button" class="dot active" role="tab" aria-selected="true" aria-label="Imagen 1"></button>
+        <button type="button" class="dot" role="tab" aria-selected="false" aria-label="Imagen 2"></button>
+        <button type="button" class="dot" role="tab" aria-selected="false" aria-label="Imagen 3"></button>
+      </div>
+    </section>
+
+    <!-- Declaración de marca -->
+    <section class="values-section" aria-labelledby="values-title">
+      <img src="assets/images/tortilla.png" alt="" aria-hidden="true" class="values-bread-image">
+      <h1 class="values-wrapper" id="values-title">
+        <span>Productos hechos con amor.</span>
+        <span>Desde la preparación hasta la entrega,</span>
+        <span>cada paso es intencional. Ingredientes naturales, sin aditivos&nbsp;&mdash;</span>
+        <span>y ese toque que nace del corazón y que no tiene nombre</span>
+        <span>pero se siente en cada mordida</span>
+      </h1>
+    </section>
+
+    <!-- Catálogo -->
+    <section id="productos" class="productos" aria-labelledby="productos-title">
+      <h2 id="productos-title" class="visually-hidden">Nuestros productos</h2>
+      <div class="products-accordion" id="productsAccordion">
+        <p class="accordion-loading">Cargando productos…</p>
+      </div>
+    </section>
+
+    <!-- Sobre nosotros -->
+    <section id="nosotros" class="nosotros" aria-labelledby="nosotros-title">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-image">
+            <!-- TODO: reemplazar por la foto real de Cami (mín. 900×1100, formato .webp) -->
+            <img src="assets/images/placeholder-cami.svg" alt="Cami, fundadora de Ahava, en su cocina" loading="lazy" decoding="async">
+          </div>
+          <div class="about-text">
+            <h2 id="nosotros-title">Sobre Nosotros</h2>
+            <p>Soy Cami, y Ahava es mi pasión. Cada producto es hecho con ingredientes naturales y mucho cuidado en mi cocina. Creo en la calidad, en los ingredientes puros, y en llevar comida deliciosa a tu mesa.</p>
+            <p>Mi objetivo es crecer, invertir en mejores máquinas, y compartir mis panes, bombones y barras de cereal con muchas más personas.</p>
+            <div class="social-links">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-instagram"/></svg>
+                Instagram
+              </a>
+              <a href="https://wa.me/56968284286" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Para negocios -->
+    <section id="negocios" class="negocios" aria-labelledby="negocios-title">
+      <div class="container">
+        <div class="business-card">
+          <svg class="business-mark" aria-hidden="true" focusable="false"><use href="#i-grain"/></svg>
+          <h2 id="negocios-title">¿Quieres nuestros panes en tu negocio?</h2>
+          <p>Si eres dueño de una cafetería, restaurante o local, nos encantaría hablar sobre una posible colaboración.</p>
+
+          <form class="business-form" id="businessForm" novalidate>
+            <div class="field">
+              <label for="bf-name">Tu nombre</label>
+              <input type="text" id="bf-name" name="name" autocomplete="name" required>
+              <p class="field-error" id="bf-name-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="bf-email">Tu email</label>
+              <input type="email" id="bf-email" name="email" autocomplete="email" required>
+              <p class="field-error" id="bf-email-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="bf-business">Nombre de tu negocio</label>
+              <input type="text" id="bf-business" name="business" autocomplete="organization" required>
+              <p class="field-error" id="bf-business-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="bf-message">Cuéntanos sobre tu negocio</label>
+              <textarea id="bf-message" name="message" rows="4" required></textarea>
+              <p class="field-error" id="bf-message-error" hidden></p>
+            </div>
+            <button type="submit" class="cta-button" id="businessSubmit">
+              <span class="cta-label">Enviar propuesta</span>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg>
+            </button>
+            <p class="form-status" id="businessStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="contacto" aria-labelledby="contacto-title">
+      <div class="container">
+        <h2 id="contacto-title">Contacto</h2>
+        <p class="contacto-lead">Escríbenos por donde te acomode. Respondemos todos los días.</p>
+        <div class="contact-links">
+          <a href="https://wa.me/56968284286" class="contact-button" target="_blank" rel="noopener noreferrer">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>
+            WhatsApp
+          </a>
+          <a href="mailto:info@ahava.cl" class="contact-button">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg>
+            info@ahava.cl
+          </a>
+          <a href="https://instagram.com" class="contact-button" target="_blank" rel="noopener noreferrer">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-instagram"/></svg>
+            Instagram
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Ficha de producto -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="productTitle" hidden>
+    <div class="lightbox-content" role="document">
+      <button class="lightbox-close" type="button" aria-label="Cerrar ficha de producto">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
+      </button>
+
+      <div class="product-detail">
+        <div class="product-gallery">
+          <div class="main-image-container">
+            <img id="mainProductImage" src="assets/images/placeholder-product.svg" alt="" class="main-product-image">
+          </div>
+          <div class="thumbnails-container" id="thumbnailsContainer"></div>
+        </div>
+
+        <div class="product-info">
+          <p class="product-category" id="productCategory"></p>
+          <h2 class="product-title" id="productTitle"></h2>
+          <p class="product-description" id="productDescription"></p>
+          <button class="whatsapp-button" id="whatsappBtn" type="button">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-whatsapp"/></svg>
+            Comprar por WhatsApp
+          </button>
+          <dl class="product-specs" id="productSpecs"></dl>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <svg class="footer-mark" aria-hidden="true" focusable="false"><use href="#i-grain"/></svg>
+      <p>&copy; <span id="year">2026</span> Ahava. Todos los derechos reservados.</p>
+      <p class="footer-credit">Hecho a mano por Cami, en Chile.</p>
+    </div>
+  </footer>
+
+  <script src="script.js?v=2"></script>
+</body>
+</html>
