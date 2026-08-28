@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ahava — Amor hecho sabor</title>
-  <meta name="description" content="Panes artesanales hechos a mano. Muy pronto vas a poder pedir los tuyos. Mientras tanto, escríbenos.">
+  <meta name="description" content="Panes, bombones y barras artesanales hechos a mano. Muy pronto vas a poder hacer tus pedidos. Mientras tanto, escríbenos.">
   <meta name="theme-color" content="#5C6448">
 
   <!-- El enlace se va a compartir por WhatsApp: la vista previa importa. -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ahavasabor.cl/">
   <meta property="og:title" content="Ahava — Amor hecho sabor">
-  <meta property="og:description" content="Panes artesanales hechos a mano. Muy pronto vas a poder pedir los tuyos.">
+  <meta property="og:description" content="Panes, bombones y barras artesanales hechos a mano. Muy pronto vas a poder hacer tus pedidos.">
   <meta property="og:image" content="https://ahavasabor.cl/assets/images/og-cover.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -20,30 +20,37 @@
 
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Young Serif para la voz: trazo grueso y remates tallados, más cerca
-       del pincel del logotipo que de un serif de gala.
-       Outfit para la interfaz, que ya es la tipografía de la casa. -->
-  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Helvena va auto-alojada y recortada a los caracteres que la página
+       usa: 9 KB por peso. Sin Google Fonts, la página no pide nada a
+       terceros y el titular no parpadea al cargar. -->
+  <link rel="preload" href="assets/fonts/Helvena-Regular.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
+    @font-face {
+      font-family: 'Helvena';
+      src: url('assets/fonts/Helvena-Regular.woff2') format('woff2');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Helvena';
+      src: url('assets/fonts/Helvena-Bold.woff2') format('woff2');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+
     /* ---------------------------------------------------------------
        Ahava — página de espera
 
-       El texto va directamente sobre la fotografía, sin tarjeta. Eso
-       traslada toda la legibilidad al velo: sobre la miga más clara de
-       las cinco fotos, la crema queda en 4.6:1 — verificado midiendo
-       los píxeles reales, no a ojo.
+       Composición de cartel: logotipo arriba a la izquierda, titular
+       grande abajo, y las tres barras de la casa como sello. El velo
+       cae en diagonal — denso donde vive el texto, abierto arriba a la
+       derecha para que la fotografía respire.
        --------------------------------------------------------------- */
     :root {
-      --cream:        #F8F3EC;   /* el blanco del propio logotipo */
-      --damasco:      #F79969;
-      --damasco-deep: #D9683A;
-      --olive-deep:   #5C6448;   /* crema encima: 5.64:1 */
-      --ink:          #1F2118;
+      --cream:      #F8F3EC;   /* el blanco del propio logotipo */
+      --damasco:    #F79969;
+      --olive-deep: #5C6448;
+      --ink:        #1F2118;
 
-      --r-pill: 999px;
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -52,7 +59,7 @@
     html { -webkit-text-size-adjust: 100%; }
 
     body {
-      font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      font-family: 'Helvena', system-ui, -apple-system, 'Segoe UI', sans-serif;
       /* Olivo profundo detrás: si una foto tarda, el fondo sigue siendo
          de la marca y no un rectángulo negro. */
       background: var(--olive-deep);
@@ -65,9 +72,6 @@
     .stage {
       position: relative;
       min-height: 100svh;
-      display: grid;
-      place-items: center;
-      padding: clamp(1.5rem, 5vw, 3rem);
       overflow: hidden;
       isolation: isolate;
     }
@@ -112,175 +116,146 @@
     }
 
     /* Velo en tinta, nunca en negro puro: conserva el tono cálido de la
-       miga en lugar de agrisarla. Es denso a propósito — sin tarjeta,
-       es lo único que sostiene el contraste del texto. El refuerzo
-       radial cae justo donde vive el mensaje. */
+       miga. Pesa abajo y a la izquierda, que es donde va el texto, y se
+       abre arriba a la derecha para no tapar la fotografía. */
     .scrim {
       position: absolute;
       inset: 0;
       z-index: -1;
       background:
-        radial-gradient(88% 66% at 50% 48%, rgba(31,33,24,0.34), rgba(31,33,24,0) 72%),
-        linear-gradient(180deg, rgba(31,33,24,0.54), rgba(31,33,24,0.42) 42%, rgba(31,33,24,0.60));
+        linear-gradient(to right, rgba(31,33,24,0.82), rgba(31,33,24,0.50) 40%, rgba(31,33,24,0) 84%),
+        linear-gradient(to top, rgba(31,33,24,0.72) 0%, rgba(31,33,24,0.30) 58%, rgba(31,33,24,0.46) 100%);
     }
 
-    /* --- Contenido -------------------------------------------------- */
+    /* --- Retícula del cartel ---------------------------------------- */
 
-    .content {
-      width: min(600px, 100%);
-      text-align: center;
-      animation: settle 0.9s var(--ease-out) both;
+    /* Margen único de 20px contra el viewport: el cartel va a sangre y
+       las tres esquinas ocupadas comparten la misma calle. */
+    .frame {
+      position: relative;
+      min-height: 100svh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: clamp(2rem, 6vw, 4rem);
+      animation: settle 1s var(--ease-out) both;
     }
 
     @keyframes settle {
-      from { opacity: 0; transform: translateY(18px); }
+      from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: none; }
     }
 
-    .logo {
-      width: clamp(190px, 46vw, 268px);
+    .brand {
+      width: clamp(122px, 15vw, 178px);
       height: auto;
-      margin-inline: auto;
       display: block;
       /* Sombra muy abierta: no se lee como sombra, solo despega la
-         pieza de la miga cuando la foto de turno es clara. */
-      filter: drop-shadow(0 2px 18px rgba(31, 33, 24, 0.45));
+         pieza cuando la foto de turno es clara. */
+      filter: drop-shadow(0 2px 16px rgba(31, 33, 24, 0.5));
     }
 
+    /* --- Titular ----------------------------------------------------
+       Cuatro líneas marcadas a mano, como en el mockup. El cuerpo se
+       calcula sobre el ancho del viewport, así que el bloque crece y
+       encoge con la pantalla sin volver a quebrarse. */
     h1 {
-      margin-top: clamp(1.9rem, 5vw, 2.75rem);
-      font-family: 'Young Serif', Georgia, 'Times New Roman', serif;
-      font-weight: 400;   /* Young Serif trae un solo grosor, ya robusto */
-      font-size: clamp(1.75rem, 6.2vw, 2.8rem);
-      line-height: 1.16;
-      letter-spacing: -0.012em;
+      font-weight: 400;              /* Helvena Regular, como se pidió */
+      font-size: clamp(2.5rem, 9.5vw, 7rem);
+      line-height: 0.98;
+      letter-spacing: -0.035em;
       color: var(--cream);
-      text-wrap: balance;
-      text-shadow: 0 2px 22px rgba(31, 33, 24, 0.5), 0 1px 3px rgba(31, 33, 24, 0.35);
+      text-shadow: 0 2px 26px rgba(31, 33, 24, 0.45);
     }
 
-    .lede {
-      margin-top: clamp(0.9rem, 2.6vw, 1.25rem);
-      margin-inline: auto;
-      max-width: 36ch;
-      font-size: clamp(1rem, 2.7vw, 1.1rem);
-      line-height: 1.6;
-      color: var(--cream);
-      text-wrap: pretty;
-      text-shadow: 0 1px 16px rgba(31, 33, 24, 0.55), 0 1px 3px rgba(31, 33, 24, 0.35);
-    }
-
-    /* Marca corta y gruesa en lugar de una línea de lado a lado. Una
-       raya fina cruzando toda la caja es lenguaje de interfaz; esta se
-       lee como un trazo impreso. Separa igual: bajo ella todo es
-       "cómo contactarnos". */
-    .rule {
-      width: 68px;
-      height: 3px;
-      margin: clamp(2rem, 5vw, 2.6rem) auto clamp(1.6rem, 4.2vw, 2.1rem);
-      background: var(--cream);
-      opacity: 0.6;
-    }
-
-    .actions {
+    .foot {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: clamp(1.5rem, 4vw, 2.25rem);
     }
 
-    .actions-primary { display: flex; gap: 0.7rem; }
-    .actions-primary .btn { flex: 1 1 0; min-width: 0; }
+    /* --- Acciones ---------------------------------------------------
+       Las tres tintas de la casa, cada franja un botón. Sin bordes ni
+       esquinas redondeadas: leen como una carta de color impresa, no
+       como controles de una aplicación. */
+    .actions {
+      display: grid;
+      gap: 5px;
+      width: clamp(232px, 28vw, 330px);
+      flex: none;
+    }
 
-    /* Etiquetas impresas, no píldoras de aplicación.
-       - Esquina apenas cortada, y con los cuatro radios distintos: un
-         troquel perfecto delata la máquina. Es sutil a propósito.
-       - Filete de tinta alrededor, como el borde de una etiqueta de
-         frasco. Es lo que más aleja la caja del acabado "premium".
-       - Versalitas espaciadas: el mismo recurso que ya usa el logotipo
-         en "AMOR HECHO SABOR". */
     .btn {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.65rem;
+      gap: 0.7rem;
       min-height: 56px;
-      padding: 0.95rem 1.35rem;
-      border-radius: 7px 5px 8px 6px;
-      border: 2px solid var(--ink);
+      padding: 0.9rem clamp(1rem, 2vw, 1.4rem);
       font-family: inherit;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
+      /* Versalitas espaciadas: el mismo recurso que ya usa el logotipo
+         en "AMOR HECHO SABOR". */
       text-transform: uppercase;
-      letter-spacing: 0.075em;
+      letter-spacing: 0.085em;
       text-decoration: none;
       cursor: pointer;
-      /* Sombra corta y baja: la pieza está apoyada, no levitando. */
-      box-shadow: 0 3px 10px -3px rgba(31, 33, 24, 0.6);
-      transition:
-        transform 160ms var(--ease-out),
-        background-color 200ms var(--ease-out);
+      box-shadow: 0 4px 14px -4px rgba(31, 33, 24, 0.55);
+      transition: filter 180ms var(--ease-out);
     }
 
     .btn .icon {
-      width: 21px; height: 21px;
+      width: 20px; height: 20px;
       flex: none;
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
+      transition: transform 180ms var(--ease-out);
     }
     .btn .icon .solid { fill: currentColor; stroke: none; }
 
-    /* Los tres botones son sólidos: sobre fotografía, un botón de borde
-       fino se pierde en cuanto pasa una miga clara por detrás.
-       El damasco va en WhatsApp porque es la vía que termina en pedido;
-       Instagram acompaña en olivo y el correo cierra en crema. */
-    .btn-whatsapp {
-      background: var(--damasco);
-      color: var(--ink);            /* 7.54:1 */
-    }
-    .btn-whatsapp:hover { background: #EF8A52; }
+    /* Orden del mockup: olivo, damasco, crema. El correo cierra abajo
+       por ser la vía secundaria. */
+    .btn-whatsapp  { background: var(--olive-deep); color: var(--cream); }  /* 5.64:1 */
+    .btn-instagram { background: var(--damasco);    color: var(--ink);   }  /* 7.54:1 */
+    /* No muestra la dirección: el botón dice qué hace. */
+    .btn-mail      { background: var(--cream);      color: var(--ink);   }  /* 14.8:1 */
 
-    .btn-instagram {
-      background: var(--olive-deep);
-      color: var(--cream);          /* 5.64:1 */
-    }
-    .btn-instagram:hover { background: #4E553D; }
+    /* Al pasar por encima la franja se aclara y el icono avanza. Se
+       mueve el icono con transform y no el relleno del botón: animar
+       padding obliga a recalcular la maqueta en cada fotograma. */
+    .btn:hover { filter: brightness(1.08); }
+    .btn:hover .icon { transform: translateX(4px); }
+    .btn:active { filter: brightness(0.94); }
 
-    /* El correo es la vía secundaria: mismo tamaño de objetivo, color
-       más callado. Y no muestra la dirección — dice qué hace el botón. */
-    .btn-mail {
-      background: var(--cream);
-      color: var(--ink);            /* 14.8:1 */
-    }
-    .btn-mail:hover { background: #EFE7DA; }
+    .btn:focus-visible { outline: 3px solid var(--cream); outline-offset: -3px; }
 
-    /* Al pulsar se hunde. No se levanta: una etiqueta pegada al pan no
-       flota, y ese despegue era buena parte del aire "premium". */
-    .btn:active { transform: translateY(2px); }
-
-    .btn:focus-visible {
-      outline: 3px solid var(--cream);
-      outline-offset: 3px;
+    /* A partir de aquí el titular y los botones caben lado a lado, así
+       que cada uno se ancla a su esquina inferior contra el viewport. */
+    @media (min-width: 800px) {
+      .foot { display: contents; }
+      h1      { position: absolute; left: 20px;  bottom: 20px; }
+      .actions { position: absolute; right: 20px; bottom: 20px; }
     }
 
-    /* Bajo 440px los dos botones lado a lado no caben sin partir la
-       palabra "Instagram". Apilados, además, el objetivo táctil crece. */
-    @media (max-width: 440px) {
-      .actions-primary { flex-direction: column; }
+    /* En vertical van apilados y el bloque ocupa el ancho completo. */
+    @media (max-width: 799px) {
+      .actions { width: 100%; }
     }
 
-    /* Pantallas bajas (móvil en horizontal): que el contenido pueda
+    /* Pantallas bajas (móvil en horizontal): que el cartel pueda
        desplazarse en vez de quedar cortado. */
-    @media (max-height: 620px) {
-      .stage { place-items: start center; padding-block: 2rem; }
+    @media (max-height: 560px) {
+      .frame { min-height: auto; padding-block: 2rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      /* Se detiene en la primera foto y el contenido ya está puesto.
+      /* Se detiene en la primera foto y el cartel ya está puesto.
          No se pierde información: las cinco fotos son de lo mismo. */
-      .slide, .slide img, .content { animation: none; }
+      .slide, .slide img, .frame { animation: none; }
       .slide:nth-child(1) { opacity: 1; }
       .btn { transition-duration: 1ms; }
       .btn:active { transform: none; }
@@ -298,18 +273,16 @@
     </div>
     <div class="scrim" aria-hidden="true"></div>
 
-    <div class="content">
-      <img class="logo" src="assets/images/logo-ahava.svg"
-           alt="Ahava, amor hecho sabor" width="268" height="111">
+    <div class="frame">
+      <header>
+        <img class="brand" src="assets/images/logo-ahava.svg"
+             alt="Ahava, amor hecho sabor" width="178" height="74">
+      </header>
 
-      <h1>Muy pronto, tu espacio para pedir tus panes</h1>
+      <div class="foot">
+        <h1>Muy pronto,<br>tu espacio<br>para hacer<br>tus pedidos.</h1>
 
-      <p class="lede">Estamos amasando los últimos detalles. Mientras tanto, escríbenos y te contamos qué hay disponible.</p>
-
-      <div class="rule" aria-hidden="true"></div>
-
-      <div class="actions">
-        <div class="actions-primary">
+        <nav class="actions" aria-label="Contacto">
           <a class="btn btn-whatsapp" href="https://wa.me/56968284285" target="_blank" rel="noopener noreferrer">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M20.5 11.7a8.5 8.5 0 0 1-12.4 7.5L3.5 20.5l1.4-4.5A8.5 8.5 0 1 1 20.5 11.7Z"/>
@@ -326,15 +299,15 @@
             </svg>
             Instagram
           </a>
-        </div>
 
-        <a class="btn btn-mail" href="mailto:cam.sepulvedao@gmail.com?subject=Consulta%20desde%20ahavasabor.cl">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M3.5 7.5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z"/>
-            <path d="m4.2 8 6.9 4.8a1.6 1.6 0 0 0 1.8 0L19.8 8"/>
-          </svg>
-          Escríbenos por correo
+          <a class="btn btn-mail" href="mailto:cam.sepulvedao@gmail.com?subject=Consulta%20desde%20ahavasabor.cl">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M3.5 7.5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z"/>
+              <path d="m4.2 8 6.9 4.8a1.6 1.6 0 0 0 1.8 0L19.8 8"/>
+            </svg>
+          Escríbenos
         </a>
+      </nav>
       </div>
     </div>
   </main>
