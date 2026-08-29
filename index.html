@@ -159,23 +159,18 @@
        que además se parta sola por falta de espacio, que es justo el
        reflow que arruinaría el corte de cuatro líneas al agrandar el
        cuerpo en escritorio.
-       Sin velo detrás, la legibilidad ya no depende de oscurecer la
-       foto: se resuelve con un filete de tinta alrededor de cada letra
-       —el mismo lenguaje que ya usan las etiquetas— más un halo suave
-       para separarla del fondo en las zonas más claras. */
+       Sin velo ni trazo detrás, la única defensa de contraste es este
+       halo: una sombra difusa, sin borde duro. Es más débil que un
+       contorno — en las zonas más claras de cada foto el texto pierde
+       un poco de lectura —, pero es lo que se pidió. */
     h1 {
       font-weight: 500;               /* Helvena Medium */
-      font-size: clamp(2.1rem, 8.5vw, 7.5rem);
+      font-size: clamp(2.75rem, 10vw, 7.5rem);
       line-height: 0.98;
       letter-spacing: -0.03em;
       white-space: nowrap;
       color: var(--cream);
-      text-shadow:
-        0 1px 0 var(--ink), 0 -1px 0 var(--ink),
-        1px 0 0 var(--ink), -1px 0 0 var(--ink),
-        1px 1px 0 var(--ink), -1px -1px 0 var(--ink),
-        1px -1px 0 var(--ink), -1px 1px 0 var(--ink),
-        0 4px 24px rgba(31, 33, 24, 0.55);
+      text-shadow: 0 4px 30px rgba(31, 33, 24, 0.65), 0 1px 4px rgba(31, 33, 24, 0.5);
     }
 
     .foot {
