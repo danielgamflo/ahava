@@ -23,13 +23,18 @@
   <!-- Helvena va auto-alojada y recortada a los caracteres que la página
        usa: 9 KB por peso. Sin Google Fonts, la página no pide nada a
        terceros y el titular no parpadea al cargar. -->
-  <link rel="preload" href="assets/fonts/Helvena-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/Helvena-Medium.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
     @font-face {
       font-family: 'Helvena';
       src: url('assets/fonts/Helvena-Regular.woff2') format('woff2');
       font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Helvena';
+      src: url('assets/fonts/Helvena-Medium.woff2') format('woff2');
+      font-weight: 500; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: 'Helvena';
@@ -115,18 +120,6 @@
       100% { transform: scale(1.09); }
     }
 
-    /* Velo en tinta, nunca en negro puro: conserva el tono cálido de la
-       miga. Pesa abajo y a la izquierda, que es donde va el texto, y se
-       abre arriba a la derecha para no tapar la fotografía. */
-    .scrim {
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background:
-        linear-gradient(to right, rgba(31,33,24,0.82), rgba(31,33,24,0.50) 40%, rgba(31,33,24,0) 84%),
-        linear-gradient(to top, rgba(31,33,24,0.72) 0%, rgba(31,33,24,0.30) 58%, rgba(31,33,24,0.46) 100%);
-    }
-
     /* --- Retícula del cartel ---------------------------------------- */
 
     /* Margen único de 20px contra el viewport: el cartel va a sangre y
@@ -151,9 +144,11 @@
       width: clamp(122px, 15vw, 178px);
       height: auto;
       display: block;
+      margin-top: 20px;
       /* Sombra muy abierta: no se lee como sombra, solo despega la
-         pieza cuando la foto de turno es clara. */
-      filter: drop-shadow(0 2px 16px rgba(31, 33, 24, 0.5));
+         pieza cuando la foto de turno es clara. Ahora es la única
+         defensa de contraste del logo — ya no hay velo detrás. */
+      filter: drop-shadow(0 2px 16px rgba(31, 33, 24, 0.6));
     }
 
     /* --- Titular ----------------------------------------------------
@@ -163,15 +158,24 @@
        nowrap: los <br> ya deciden dónde corta cada línea; nowrap evita
        que además se parta sola por falta de espacio, que es justo el
        reflow que arruinaría el corte de cuatro líneas al agrandar el
-       cuerpo en escritorio. */
+       cuerpo en escritorio.
+       Sin velo detrás, la legibilidad ya no depende de oscurecer la
+       foto: se resuelve con un filete de tinta alrededor de cada letra
+       —el mismo lenguaje que ya usan las etiquetas— más un halo suave
+       para separarla del fondo en las zonas más claras. */
     h1 {
-      font-weight: 400;              /* Helvena Regular, como se pidió */
-      font-size: clamp(2.5rem, 11vw, 10.5rem);
+      font-weight: 500;               /* Helvena Medium */
+      font-size: clamp(2.1rem, 8.5vw, 7.5rem);
       line-height: 0.98;
-      letter-spacing: -0.035em;
+      letter-spacing: -0.03em;
       white-space: nowrap;
       color: var(--cream);
-      text-shadow: 0 2px 26px rgba(31, 33, 24, 0.45);
+      text-shadow:
+        0 1px 0 var(--ink), 0 -1px 0 var(--ink),
+        1px 0 0 var(--ink), -1px 0 0 var(--ink),
+        1px 1px 0 var(--ink), -1px -1px 0 var(--ink),
+        1px -1px 0 var(--ink), -1px 1px 0 var(--ink),
+        0 4px 24px rgba(31, 33, 24, 0.55);
     }
 
     .foot {
@@ -283,8 +287,6 @@
       <div class="slide"><img src="assets/images/Slide-04.webp" alt="" fetchpriority="low" decoding="async"></div>
       <div class="slide"><img src="assets/images/Slide-05.webp" alt="" fetchpriority="low" decoding="async"></div>
     </div>
-    <div class="scrim" aria-hidden="true"></div>
-
     <div class="frame">
       <header>
         <img class="brand" src="assets/images/logo-ahava.svg"
