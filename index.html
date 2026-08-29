@@ -159,12 +159,17 @@
     /* --- Titular ----------------------------------------------------
        Cuatro líneas marcadas a mano, como en el mockup. El cuerpo se
        calcula sobre el ancho del viewport, así que el bloque crece y
-       encoge con la pantalla sin volver a quebrarse. */
+       encoge con la pantalla sin volver a quebrarse.
+       nowrap: los <br> ya deciden dónde corta cada línea; nowrap evita
+       que además se parta sola por falta de espacio, que es justo el
+       reflow que arruinaría el corte de cuatro líneas al agrandar el
+       cuerpo en escritorio. */
     h1 {
       font-weight: 400;              /* Helvena Regular, como se pidió */
-      font-size: clamp(2.5rem, 9.5vw, 7rem);
+      font-size: clamp(2.5rem, 11vw, 10.5rem);
       line-height: 0.98;
       letter-spacing: -0.035em;
+      white-space: nowrap;
       color: var(--cream);
       text-shadow: 0 2px 26px rgba(31, 33, 24, 0.45);
     }
@@ -233,16 +238,23 @@
 
     .btn:focus-visible { outline: 3px solid var(--cream); outline-offset: -3px; }
 
-    /* A partir de aquí el titular y los botones caben lado a lado, así
-       que cada uno se ancla a su esquina inferior contra el viewport. */
+    /* A partir de aquí el titular y los botones caben lado a lado: fila
+       en vez de columna, texto pegado a la izquierda y botones a la
+       derecha, ambos alineados por su base. El padding de 20px en
+       .frame ya pone las dos piezas contra el viewport — no hace falta
+       posicionarlas a mano. */
     @media (min-width: 800px) {
-      .foot { display: contents; }
-      h1      { position: absolute; left: 20px;  bottom: 20px; }
-      .actions { position: absolute; right: 20px; bottom: 20px; }
+      .foot {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: clamp(2rem, 5vw, 4rem);
+      }
     }
 
     /* En vertical van apilados y el bloque ocupa el ancho completo. */
     @media (max-width: 799px) {
+      h1 { white-space: normal; }   /* en móvil el corte ya lo da el ancho */
       .actions { width: 100%; }
     }
 
