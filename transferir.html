@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahava — Transferencia</title>
+  <meta name="description" content="Datos para transferir a Ahava.">
+  <meta name="theme-color" content="#5C6448">
+  <!-- Página de pago con datos personales: fuera del índice de buscadores,
+       pero abierta a cualquiera que entre con el link o el QR. -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+
+  <style>
+    /* Sin fuentes externas ni fotos: esta página existe para que un QR
+       la abra rápido en cualquier celular y se copien cuatro datos. */
+    :root {
+      --olive-deep: #5C6448;
+      --beige:      #F9F4ED;
+      --beige-deep: #EAE5DE;
+      --ink:        #1F2118;
+      --ink-soft:   #4A4E3F;
+      --damasco:    #F15639;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: var(--olive-deep);
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(1.25rem, 5vw, 2rem);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--beige);
+      border-radius: 22px;
+      padding: clamp(1.75rem, 6vw, 2.5rem) clamp(1.5rem, 5vw, 2rem);
+      box-shadow: 0 24px 48px -12px rgba(31, 33, 24, 0.4);
+      animation: settle 0.6s var(--ease-out) both;
+    }
+
+    @keyframes settle {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .logo {
+      display: block;
+      width: 108px;
+      height: auto;
+      margin: 0 auto clamp(1.25rem, 4vw, 1.75rem);
+    }
+
+    /* Tres escalones, con salto real entre cada uno (~1.35:1):
+       0.7rem para las etiquetas, 0.95rem para todo lo que se lee como
+       cuerpo (valores, botón, nota final), 1.3rem para el título. */
+    h1 {
+      text-align: center;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .fields {
+      margin-top: clamp(1.5rem, 5vw, 2rem);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    /* Datos de solo lectura: la acción de copiar vive en un único botón
+       más abajo, no dato por dato. */
+    .field {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      background: var(--beige-deep);
+      border-radius: 13px;
+    }
+
+    .field-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--ink-soft);
+    }
+
+    .field-value {
+      margin-top: 0.15rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+      overflow-wrap: anywhere;
+    }
+
+    /* Los dos campos que de verdad se pegan en un formulario de banco
+       van con tracking amplio y tabular-nums: se leen dígito a dígito
+       sin ambigüedad, que es lo que importa al tipear o verificar. */
+    .field-value.is-numeric {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.04em;
+    }
+
+    /* El botón que copia el bloque completo: una sola acción, un solo
+       lugar, en el color que ya usa el sitio para la vía que más
+       importa (WhatsApp). */
+    .copy-all {
+      margin-top: clamp(1.25rem, 4vw, 1.5rem);
+      width: 100%;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      background: var(--olive-deep);
+      color: var(--beige);
+      border: none;
+      border-radius: 13px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 160ms var(--ease-out);
+    }
+    .copy-all:hover { background: #4E553D; }
+    .copy-all:active { background: #464C37; }
+    .copy-all:focus-visible { outline: 3px solid var(--damasco); outline-offset: 2px; }
+
+    .copy-all .icon { flex: none; width: 21px; height: 21px; }
+    .copy-all .icon svg { display: block; width: 100%; height: 100%; }
+    .copy-all .icon .check { display: none; }
+    .copy-all.is-copied .icon .pending { display: none; }
+    .copy-all.is-copied .icon .check   { display: block; }
+    .copy-all.is-copied { background: var(--damasco); color: var(--ink); }
+
+    .hint {
+      margin-top: 1.1rem;
+      text-align: center;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+    }
+
+    /* Confirmación leída por lectores de pantalla; no ocupa espacio. */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card { animation: none; }
+      .field { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img class="logo" src="assets/images/logo-ahava-olive.svg" alt="Ahava" width="108" height="45">
+
+    <h1>Datos para transferir</h1>
+
+    <div class="fields">
+      <div class="field">
+        <div class="field-label">Nombre</div>
+        <div class="field-value">Camila Jael Sepúlveda Orostica</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">RUT</div>
+        <div class="field-value is-numeric">18.960.456-4</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Banco</div>
+        <div class="field-value">Banco Falabella</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Tipo de cuenta</div>
+        <div class="field-value">Cuenta Corriente</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Número de cuenta</div>
+        <div class="field-value is-numeric">019811516287</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Correo</div>
+        <div class="field-value">cam.sepulvedao@gmail.com</div>
+      </div>
+    </div>
+
+    <button class="copy-all" type="button" id="copyAllBtn">
+      <span class="icon" aria-hidden="true">
+        <svg class="pending" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8.5a2 2 0 0 0 2 2h2.5"/></svg>
+        <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-10"/></svg>
+      </span>
+      <span id="copyAllLabel">Copiar todos los datos</span>
+    </button>
+
+    <p class="hint">Envía el comprobante por WhatsApp para confirmar tu pedido.</p>
+  </main>
+
+  <p class="sr-only" role="status" aria-live="polite" id="copyStatus"></p>
+
+  <script>
+    var ALL_DATA = [
+      'Camila Jael Sepúlveda Orostica',
+      'RUT: 18.960.456-4',
+      'Banco Falabella',
+      'Cuenta Corriente',
+      'N.º de cuenta: 019811516287',
+      'cam.sepulvedao@gmail.com'
+    ].join('\n');
+
+    var btn = document.getElementById('copyAllBtn');
+    var label = document.getElementById('copyAllLabel');
+    var status = document.getElementById('copyStatus');
+    var defaultLabel = label.textContent;
+    var resetTimer = null;
+
+    function markCopied() {
+      btn.classList.add('is-copied');
+      label.textContent = '¡Copiado!';
+      status.textContent = 'Todos los datos fueron copiados.';
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(function () {
+        btn.classList.remove('is-copied');
+        label.textContent = defaultLabel;
+      }, 1800);
+    }
+
+    btn.addEventListener('click', function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ALL_DATA).then(markCopied).catch(function () {
+          status.textContent = 'No se pudo copiar. Selecciona el texto manualmente.';
+        });
+      } else {
+        // Sin Clipboard API (contexto no seguro o navegador viejo):
+        // selecciona todos los datos para que el usuario copie a mano.
+        var range = document.createRange();
+        range.selectNodeContents(document.querySelector('.fields'));
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        status.textContent = 'Datos seleccionados. Copia con tu teclado.';
+      }
+    });
+  </script>
+</body>
+</html>
