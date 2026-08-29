@@ -3,8 +3,3 @@ compatibility_date = "2024-09-23"
 
 [assets]
 directory = "."
-
-# Rama staging: mismo sitio, Worker aparte con su propio nombre y URL
-# (ahava-staging.<cuenta>.workers.dev), sin tocar producción.
-[env.staging]
-name = "ahava-staging"
