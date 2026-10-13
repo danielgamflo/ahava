@@ -158,6 +158,13 @@
       border-radius: 14px; background: var(--sage-deep);
     }
     @media (min-width: 560px) { .card img { aspect-ratio: 4 / 5; } }
+    .media { position: relative; }
+    .media .prueba {
+      position: absolute; left: 10px; bottom: 10px;
+      background: var(--cream); color: var(--ink);
+      padding: 3px 9px; border-radius: 999px;
+      font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.4;
+    }
     .card-body { flex: 1; display: flex; flex-direction: column; padding: 14px 6px 4px; }
     .card h4 { font-size: 1.1rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
     .card .desc { margin-top: 6px; color: var(--ink-soft); font-size: 0.95rem; line-height: 1.5; }
@@ -170,7 +177,13 @@
     .card.star .desc { color: var(--cream); font-size: 1.05rem; }
     .card.star h4 { font-size: 1.5rem; }
     .card.star .btn { background: var(--cream); color: var(--ink); }
-    @media (min-width: 560px) { .card.star { grid-column: span 2; padding: 20px; } }
+    @media (min-width: 560px) {
+      .card.star { grid-column: span 2; padding: 20px; }
+      /* Con foto, el destacado va en horizontal: foto a un lado, texto al otro,
+         y queda de la misma altura que las tarjetas vecinas. */
+      .card.star.with-photo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+      .card.star.with-photo .card-body { padding: 8px 4px; }
+    }
 
     /* --- Cómo pedir ---------------------------------------------------- */
     .steps { margin-top: 32px; list-style: none; display: grid; gap: 28px; }
@@ -370,6 +383,11 @@
     var PRECIO = 2000;
     var clp = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
 
+    // FOTO DE PRUEBA: mientras no existan las fotos reales, esta imagen se repite
+    // en los productos sin foto, solo para ver cómo se acomoda el diseño.
+    // Cada una lleva la etiqueta "Foto de prueba". Para apagarla: dejar en ''.
+    var FOTO_DE_PRUEBA = 'molde-01.webp';
+
     // Para cambiar un producto, un precio o agregar una foto, se edita acá.
     // img: nombre de archivo en assets/images/ (sin foto, la tarjeta va solo con texto).
     // precio: opcional por producto; si no está, usa PRECIO.
@@ -384,8 +402,9 @@
         ]
       },
       {
-        titulo: 'Pan tortilla de rescoldo', nota: 'Tres sabores.', prefijo: 'Pan tortilla de rescoldo ',
+        titulo: 'Pan tortilla de rescoldo', nota: 'Natural y tres sabores.', prefijo: 'Pan tortilla de rescoldo ',
         items: [
+          { nombre: 'Natural', desc: 'Pan tortilla de rescoldo natural, sin semillas.' },
           { nombre: 'De orégano', desc: 'Pan tortilla de rescoldo con orégano.' },
           { nombre: 'De aceitunas', desc: 'Pan tortilla de rescoldo con aceitunas.' },
           { nombre: 'De merkén', desc: 'Pan tortilla de rescoldo con merkén.' }
@@ -435,14 +454,20 @@
         var nombreEnFrase = g.prefijo ? p.nombre.charAt(0).toLowerCase() + p.nombre.slice(1) : p.nombre;
         var completo = g.prefijo + nombreEnFrase;
 
-        if (p.img) {
+        var archivo = p.img || FOTO_DE_PRUEBA;
+        var esPrueba = !p.img && !!FOTO_DE_PRUEBA;
+        if (archivo) {
+          var media = el('div', 'media');
           var foto = document.createElement('img');
-          foto.src = 'assets/images/' + p.img;
-          foto.alt = completo;
+          foto.src = 'assets/images/' + archivo;
+          foto.alt = esPrueba ? '' : completo;
           foto.width = 720;
           foto.height = 960;
           foto.loading = 'lazy';
-          tarjeta.appendChild(foto);
+          media.appendChild(foto);
+          if (esPrueba) media.appendChild(el('span', 'prueba', 'Foto de prueba'));
+          tarjeta.appendChild(media);
+          tarjeta.className += ' with-photo';
         }
 
         var cuerpo = el('div', 'card-body');
