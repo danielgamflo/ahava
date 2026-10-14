@@ -283,6 +283,15 @@
     .legal img { width: 96px; height: auto; }
     @media (min-width: 820px) { .closing-grid { grid-template-columns: 1fr 1fr; gap: 56px; } }
 
+    /* Patrón de rebanadas de pan sobre el olivo. El mosaico (480 px, trazos
+       crema con la opacidad ya incluida) se repite sin costuras; va sobre
+       el color sólido, así que si no carga, la caja sigue siendo olivo. */
+    .hero, .closing, .card.star {
+      background-color: var(--olive);
+      background-image: url('assets/images/patron-tile.png');
+      background-size: 320px 320px;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .btn, .bar { transition: none; }
