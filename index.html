@@ -104,12 +104,18 @@
     @media (min-width: 760px) { .nav { display: flex; } }
 
     /* --- Portada ------------------------------------------------------- */
+    /* La caja entera es el banner: las fotos van a sangre detrás y el texto
+       encima. */
     .hero {
+      position: relative; isolation: isolate; overflow: hidden;
       background: var(--olive); color: var(--cream);
       border-radius: var(--r-card);
+      min-height: 640px;
       padding: clamp(24px, 5vw, 56px);
-      display: grid; gap: 32px; align-items: center;
+      display: flex; align-items: flex-end;
     }
+    .hero-copy { position: relative; z-index: 2; max-width: 34rem; pointer-events: none; }
+    .hero-copy a { pointer-events: auto; }
     .hero h1 {
       font-size: clamp(2.1rem, 5.4vw, 3.6rem);
       font-weight: 700; line-height: 1.04; letter-spacing: -0.025em;
@@ -118,21 +124,28 @@
     .hero p { margin-top: 18px; font-size: clamp(1.05rem, 1.8vw, 1.2rem); max-width: 36ch; }
     .hero-actions { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
     .hero-link { font-weight: 700; text-underline-offset: 6px; }
+    /* Solo una capa oscura sutil (10%) sobre las fotos; sin color. */
+    .hero-shade {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: rgba(31, 33, 24, 0.10);
+    }
+    /* Sin base de color detrás, la única ayuda al texto es una sombra suave. */
+    .hero-copy h1, .hero-copy p {
+      text-shadow: 0 2px 22px rgba(31, 33, 24, 0.55), 0 1px 3px rgba(31, 33, 24, 0.35);
+    }
     /* Banner de fotos: una pista que se desliza con el dedo (scroll-snap, sin
        librerías) y un par de controles encima. */
-    .hero-photo { position: relative; min-width: 0; }
+    .hero-photo { position: absolute; inset: 0; }
     .slides {
-      display: flex; overflow-x: auto; overscroll-behavior-x: contain;
+      display: flex; height: 100%;
+      overflow-x: auto; overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory; scrollbar-width: none;
-      aspect-ratio: 4 / 3;
-      border-radius: var(--r-item);
-      background: var(--sage-deep);
     }
     .slides::-webkit-scrollbar { display: none; }
     .slide { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
     .slide img { width: 100%; height: 100%; object-fit: cover; }
     .slider-ui {
-      position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%);
+      position: absolute; z-index: 3; right: 16px; top: 16px;
       display: flex; align-items: center; gap: 2px;
       padding: 3px 10px 3px 4px; border-radius: 999px;
       background: rgba(31, 33, 24, 0.62);
@@ -153,8 +166,8 @@
     .pp[data-estado="pausado"] .icon-pausa { display: none; }
     .pp[data-estado="pausado"] .icon-play { display: block; }
     @media (min-width: 820px) {
-      .hero { grid-template-columns: 1.05fr 0.95fr; gap: 48px; }
-      .slides { aspect-ratio: 1 / 1; }
+      .hero { min-height: 560px; align-items: center; }
+      .slider-ui { top: auto; bottom: 20px; right: 20px; }
     }
 
     /* --- Secciones ----------------------------------------------------- */
@@ -315,7 +328,7 @@
 
     <main id="inicio">
       <div class="hero">
-        <div>
+        <div class="hero-copy">
           <h1>Hecho a mano, con ingredientes naturales.</h1>
           <p>Pan de molde, pan tortilla de rescoldo y granola. Los preparo yo, en mi cocina.</p>
           <div class="hero-actions">
@@ -326,8 +339,10 @@
             <a class="hero-link" href="#productos">Ver productos</a>
           </div>
         </div>
-        <!-- Banner de fotos. Para agregar una: copiar un <figure class="slide"> más
-             (el resto —puntos, autoavance, pausa— se arma solo). -->
+        <div class="hero-shade" aria-hidden="true"></div>
+        <!-- Banner de fotos (toda la caja). Para agregar una: copiar un
+             <figure class="slide"> más; los puntos, el autoavance y la pausa
+             se arman solos. -->
         <div class="hero-photo" role="region" aria-roledescription="carrusel" aria-label="Fotos de Ahava">
           <div class="slides" id="slides">
             <figure class="slide">
@@ -632,7 +647,7 @@
         pista.addEventListener(ev, function () { pausar(true); }, { passive: true });
       });
 
-      var zona = document.querySelector('.hero-photo');
+      var zona = document.querySelector('.hero');
       zona.addEventListener('mouseenter', detener);
       zona.addEventListener('mouseleave', arrancar);
       zona.addEventListener('focusin', detener);
