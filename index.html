@@ -28,10 +28,10 @@
 
     /* ---------------------------------------------------------------
        Ahava — sitio
-       Una sola página corta, pensada fresca: pared menta de fondo, una
-       "mesa" olivo para los productos y el cierre, y el naranja-rojo como
-       el toque vivo (botones, destacado, títulos grandes). Tarjetas
-       redondeadas, un botón para pedir por WhatsApp en todos lados.
+       Una sola página corta, pensada fresca: pared menta de fondo, un
+       bloque olivo solo en el cierre, y el naranja-rojo como el toque
+       vivo (botones, destacado, títulos grandes). Tarjetas redondeadas,
+       un botón para pedir por WhatsApp en todos lados.
        Paleta de la marca: crema, olivo y rojo, más la menta de la pared.
        --------------------------------------------------------------- */
     :root {
@@ -190,13 +190,7 @@
     }
     .section-head p { margin-top: 10px; max-width: 52ch; }
 
-    /* --- Productos: la "mesa" olivo ------------------------------------ */
-    .table {
-      background: var(--olive); color: var(--cream);
-      border-radius: var(--r-card);
-      padding: clamp(24px, 5vw, 56px);
-    }
-    .table .section-head h2 { color: var(--cream); }
+    /* --- Productos ----------------------------------------------------- */
     .group { margin-top: 44px; }
     .group-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-bottom: 16px; }
     .group-head h3 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; }
@@ -393,7 +387,7 @@
         </div>
       </div>
 
-      <section id="productos" class="table" aria-labelledby="productos-titulo">
+      <section id="productos" aria-labelledby="productos-titulo">
         <div class="section-head">
           <h2 id="productos-titulo">Productos</h2>
           <p>Toca “Pedir” en el que quieras y se abre WhatsApp con el mensaje listo.</p>
