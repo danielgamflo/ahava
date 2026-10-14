@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ahava — Transferencia</title>
   <meta name="description" content="Datos para transferir a Ahava.">
-  <meta name="theme-color" content="#5C6448">
+  <meta name="theme-color" content="#CDDCB0">
   <!-- Página de pago con datos personales: fuera del índice de buscadores,
        pero abierta a cualquiera que entre con el link o el QR. -->
   <meta name="robots" content="noindex, nofollow">
@@ -15,12 +15,13 @@
     /* Sin fuentes externas ni fotos: esta página existe para que un QR
        la abra rápido en cualquier celular y se copien cuatro datos. */
     :root {
-      --olive-deep: #5C6448;
-      --beige:      #F9F4ED;
-      --beige-deep: #EAE5DE;
-      --ink:        #1F2118;
-      --ink-soft:   #4A4E3F;
-      --damasco:    #F15639;
+      /* Paleta de la marca, igual que el sitio. */
+      --mint:     #CDDCB0;   /* fondo de página y de cada dato; tinta encima 11,2:1 */
+      --olive:    #626D3A;   /* botón; crema encima 4,9:1 */
+      --orange:   #E46A3A;   /* botón ya copiado; tinta encima 5,0:1 */
+      --cream:    #FDEFC8;   /* tarjeta */
+      --ink:      #1F2118;   /* sobre crema 14,2:1 */
+      --ink-soft: #4A4E3F;   /* sobre menta 5,8:1 */
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -28,7 +29,7 @@
 
     body {
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      background: var(--olive-deep);
+      background: var(--mint);
       min-height: 100svh;
       display: grid;
       place-items: center;
@@ -38,10 +39,10 @@
     .card {
       width: 100%;
       max-width: 400px;
-      background: var(--beige);
+      background: var(--cream);
       border-radius: 22px;
       padding: clamp(1.75rem, 6vw, 2.5rem) clamp(1.5rem, 5vw, 2rem);
-      box-shadow: 0 24px 48px -12px rgba(31, 33, 24, 0.4);
+      box-shadow: 0 24px 48px -16px rgba(31, 33, 24, 0.28);
       animation: settle 0.6s var(--ease-out) both;
     }
 
@@ -80,7 +81,7 @@
     .field {
       width: 100%;
       padding: 0.7rem 1rem;
-      background: var(--beige-deep);
+      background: var(--mint);
       border-radius: 13px;
     }
 
@@ -120,8 +121,8 @@
       align-items: center;
       justify-content: center;
       gap: 0.65rem;
-      background: var(--olive-deep);
-      color: var(--beige);
+      background: var(--olive);
+      color: var(--cream);
       border: none;
       border-radius: 13px;
       font-family: inherit;
@@ -130,16 +131,16 @@
       cursor: pointer;
       transition: background-color 160ms var(--ease-out);
     }
-    .copy-all:hover { background: #4E553D; }
-    .copy-all:active { background: #464C37; }
-    .copy-all:focus-visible { outline: 3px solid var(--damasco); outline-offset: 2px; }
+    .copy-all:hover { background: #565F33; }
+    .copy-all:active { background: #4B532D; }
+    .copy-all:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 
     .copy-all .icon { flex: none; width: 21px; height: 21px; }
     .copy-all .icon svg { display: block; width: 100%; height: 100%; }
     .copy-all .icon .check { display: none; }
     .copy-all.is-copied .icon .pending { display: none; }
     .copy-all.is-copied .icon .check   { display: block; }
-    .copy-all.is-copied { background: var(--damasco); color: var(--ink); }
+    .copy-all.is-copied { background: var(--orange); color: var(--ink); }
 
     .hint {
       margin-top: 1.1rem;
