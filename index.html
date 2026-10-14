@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ahava — Pan de molde, pan tortilla de rescoldo y granola</title>
-  <meta name="description" content="Pan de molde, pan tortilla de rescoldo y granola hechos a mano por Cami, con ingredientes naturales. Pídelos por WhatsApp.">
+  <meta name="description" content="Pan de molde, pan tortilla de rescoldo y granola. Los hace Cami a mano, en su cocina, todas las semanas. Pídelos por WhatsApp.">
   <meta name="theme-color" content="#CDDCB0">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ahava.cl/">
-  <meta property="og:title" content="Ahava — Amor hecho sabor">
-  <meta property="og:description" content="Pan de molde, pan tortilla de rescoldo y granola hechos a mano, con ingredientes naturales.">
+  <meta property="og:title" content="Ahava — Pan hecho a mano, todas las semanas">
+  <meta property="og:description" content="Pan de molde, pan tortilla de rescoldo y granola. Los hace Cami a mano, en su cocina.">
   <meta property="og:image" content="https://ahava.cl/assets/images/og-cover.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -29,10 +29,12 @@
     /* ---------------------------------------------------------------
        Ahava — sitio
        Una sola página corta, pensada fresca: pared menta de fondo, un
-       bloque olivo solo en el cierre, y el naranja-rojo como el toque
-       vivo (botones, destacado, títulos grandes). Tarjetas redondeadas,
-       un botón para pedir por WhatsApp en todos lados.
-       Paleta de la marca: crema, olivo y rojo, más la menta de la pared.
+       bloque olivo solo en el cierre y tarjetas crema encima.
+       Regla del brief: el naranja tiene un solo trabajo, que es PEDIR.
+       Va en los botones de pedido y en ningún otro lado; lo demás que
+       antes era naranja (los números de paso, la tarjeta estrella, la
+       barra de Instagram) se resuelve con crema, tamaño o contorno.
+       Paleta de la marca: crema, olivo y naranja, más la menta de la pared.
        --------------------------------------------------------------- */
     :root {
       /* Paleta de la marca (oct-2026): tres familias, cada una en oscuro,
@@ -226,10 +228,10 @@
     .price { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em; }
     .card .btn { min-height: 40px; padding: 9px 14px; }
 
-    /* Producto estrella: ocupa dos columnas y es el toque vivo de la mesa. */
-    .card.star { background: var(--orange); }
-    .card.star .desc { color: var(--ink); font-size: 1.05rem; }
-    .card.star .btn { background: var(--cream); color: var(--ink); }
+    /* Producto estrella: se destaca por tamaño, no por color — ocupa dos
+       columnas y lleva el nombre más grande, pero es una tarjeta más. */
+    .card.star { background: var(--cream); }
+    .card.star .desc { font-size: 1.05rem; }
     .card.star h4 { font-size: 1.5rem; }
     @media (min-width: 560px) {
       .card.star { grid-column: span 2; padding: 20px; }
@@ -245,7 +247,7 @@
     .step-n {
       flex: none;
       width: 44px; height: 44px; border-radius: 50%;
-      background: var(--orange); color: var(--ink);
+      background: var(--olive); color: var(--cream);
       display: grid; place-items: center;
       font-weight: 700; font-size: 1.15rem;
     }
@@ -281,9 +283,14 @@
       transition: filter 160ms var(--ease);
     }
     .bar:hover { filter: brightness(1.06); }
+    /* WhatsApp es la acción principal y la única barra llena; las otras dos
+       van en contorno para que no compitan con ella. */
     .bar-whatsapp { background: var(--cream); }
-    .bar-instagram { background: var(--orange); }
-    .bar-mail { background: var(--mint); }
+    .bar-instagram, .bar-mail {
+      background: transparent; color: var(--cream);
+      box-shadow: inset 0 0 0 1px rgba(249, 244, 237, 0.45);
+    }
+    .bar-instagram:hover, .bar-mail:hover { background: rgba(249, 244, 237, 0.12); }
     .legal {
       margin-top: clamp(28px, 5vw, 44px); padding-top: 20px;
       border-top: 1px solid rgba(249, 244, 237, 0.22);
@@ -332,7 +339,7 @@
   <div class="wrap">
     <header class="top">
       <a class="logo" href="#inicio" aria-label="Ahava, ir al inicio">
-        <img src="assets/images/logo-ahava-olive.svg" alt="Ahava, amor hecho sabor" width="124" height="51">
+        <img src="assets/images/logo-ahava-olive.svg" alt="Ahava" width="124" height="51">
       </a>
       <nav class="nav" aria-label="Principal">
         <a href="#productos">Productos</a>
@@ -348,7 +355,7 @@
     <main id="inicio">
       <div class="hero">
         <div class="hero-copy">
-          <h1>Hecho a mano, con ingredientes naturales.</h1>
+          <h1>Pan de verdad, un día cualquiera.</h1>
           <p>Pan de molde, pan tortilla de rescoldo y granola. Los preparo yo, en mi cocina.</p>
           <div class="hero-actions">
             <a class="btn btn-orange" data-wa="Hola Cami, quiero hacer un pedido." href="https://wa.me/56968284285" target="_blank" rel="noopener noreferrer">
@@ -393,7 +400,7 @@
           <p>Toca “Pedir” en el que quieras y se abre WhatsApp con el mensaje listo.</p>
         </div>
         <div id="grupos"></div>
-        <noscript><p>Escríbenos por WhatsApp al +56 9 6828 4285 y te contamos qué hay disponible.</p></noscript>
+        <noscript><p>Escríbeme por WhatsApp al +56 9 6828 4285 y te cuento qué hay disponible.</p></noscript>
       </section>
 
       <section id="como-pedir" aria-labelledby="pedir-titulo">
@@ -404,22 +411,22 @@
           <li class="step">
             <span class="step-n" aria-hidden="true">1</span>
             <div>
-              <h3>Escríbenos por WhatsApp</h3>
-              <p>Dinos qué quieres y cuántos.</p>
+              <h3>Escríbeme por WhatsApp</h3>
+              <p>Dime qué quieres y cuántos.</p>
             </div>
           </li>
           <li class="step">
             <span class="step-n" aria-hidden="true">2</span>
             <div>
-              <h3>Te confirmamos</h3>
-              <p>Te respondemos con lo que hay disponible y el total.</p>
+              <h3>Te confirmo</h3>
+              <p>Te respondo con lo que hay disponible y el total.</p>
             </div>
           </li>
           <li class="step">
             <span class="step-n" aria-hidden="true">3</span>
             <div>
               <h3>Transfieres y coordinamos</h3>
-              <p>Haces la transferencia, nos mandas el comprobante y acordamos la entrega. <a href="/transferir">Ver datos para transferir</a>.</p>
+              <p>Haces la transferencia, me mandas el comprobante y acordamos la entrega. <a href="/transferir">Ver datos para transferir</a>.</p>
             </div>
           </li>
         </ol>
@@ -429,8 +436,8 @@
         <img src="assets/images/cami-pincelando.webp" alt="Cami pincelando panes de molde antes de hornearlos" width="1200" height="675" loading="lazy">
         <div>
           <h2 id="cami-titulo">Hola, soy Cami</h2>
-          <p>Ahava es mi pasión. Cada producto está hecho con ingredientes naturales y mucho cuidado en mi cocina. Creo en la calidad, en los ingredientes puros y en llevar comida deliciosa a tu mesa.</p>
-          <p>Mi objetivo es crecer, invertir en mejores máquinas y compartir lo que hago con muchas más personas.</p>
+          <p>Hago pan de molde, pan tortilla de rescoldo y granola en mi cocina, en cantidades chicas y todas las semanas. Cada producto dice lo que lleva, ahí arriba.</p>
+          <p>No es pan para una ocasión especial: es el pan de la casa, para que un día cualquiera se coma algo rico.</p>
         </div>
       </section>
     </main>
@@ -439,7 +446,7 @@
       <div class="closing-grid">
         <div>
           <h2>¿Quieres pedir?</h2>
-          <p>Escríbenos y te contamos qué hay disponible.</p>
+          <p>Escríbeme y te cuento qué hay esta semana.</p>
         </div>
         <div class="bars">
           <a class="bar bar-whatsapp" data-wa="Hola Cami, quiero hacer un pedido." href="https://wa.me/56968284285" target="_blank" rel="noopener noreferrer">
@@ -452,7 +459,7 @@
           </a>
           <a class="bar bar-mail" href="mailto:cam.sepulvedao@gmail.com?subject=Consulta%20desde%20ahava.cl">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg>
-            Escríbenos
+            Escríbeme
           </a>
         </div>
       </div>
@@ -497,7 +504,7 @@
         ]
       },
       {
-        titulo: 'Granola', nota: 'Nuestro producto estrella.', prefijo: '',
+        titulo: 'Granola', nota: 'Lo que más me piden.', prefijo: '',
         items: [
           { nombre: 'Granola en bolsa', desc: 'Granola hecha a mano, en bolsas. La usamos también en los desayunos.', estrella: true }
         ]
