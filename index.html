@@ -118,13 +118,43 @@
     .hero p { margin-top: 18px; font-size: clamp(1.05rem, 1.8vw, 1.2rem); max-width: 36ch; }
     .hero-actions { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
     .hero-link { font-weight: 700; text-underline-offset: 6px; }
-    .hero-photo img {
-      width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+    /* Banner de fotos: una pista que se desliza con el dedo (scroll-snap, sin
+       librerías) y un par de controles encima. */
+    .hero-photo { position: relative; min-width: 0; }
+    .slides {
+      display: flex; overflow-x: auto; overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory; scrollbar-width: none;
+      aspect-ratio: 4 / 3;
       border-radius: var(--r-item);
+      background: var(--sage-deep);
     }
+    .slides::-webkit-scrollbar { display: none; }
+    .slide { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+    .slide img { width: 100%; height: 100%; object-fit: cover; }
+    .slider-ui {
+      position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 2px;
+      padding: 3px 10px 3px 4px; border-radius: 999px;
+      background: rgba(31, 33, 24, 0.62);
+    }
+    .dots { display: flex; }
+    .dot, .pp {
+      width: 28px; height: 28px; display: grid; place-items: center;
+      background: none; border: 0; cursor: pointer; color: var(--cream);
+    }
+    .dot::before {
+      content: ""; width: 8px; height: 8px; border-radius: 999px;
+      background: rgba(249, 244, 237, 0.5);
+      transition: width 200ms var(--ease), background-color 200ms var(--ease);
+    }
+    .dot[aria-current="true"]::before { width: 20px; background: var(--cream); }
+    .pp .icon { width: 16px; height: 16px; stroke-width: 2.4; }
+    .pp .icon-play { display: none; fill: currentColor; }
+    .pp[data-estado="pausado"] .icon-pausa { display: none; }
+    .pp[data-estado="pausado"] .icon-play { display: block; }
     @media (min-width: 820px) {
       .hero { grid-template-columns: 1.05fr 0.95fr; gap: 48px; }
-      .hero-photo img { aspect-ratio: 1 / 1; }
+      .slides { aspect-ratio: 1 / 1; }
     }
 
     /* --- Secciones ----------------------------------------------------- */
@@ -296,8 +326,30 @@
             <a class="hero-link" href="#productos">Ver productos</a>
           </div>
         </div>
-        <div class="hero-photo">
-          <img src="assets/images/hero-amasando.webp" alt="Las manos de Cami amasando masa integral sobre el mesón" width="1400" height="788" fetchpriority="high">
+        <!-- Banner de fotos. Para agregar una: copiar un <figure class="slide"> más
+             (el resto —puntos, autoavance, pausa— se arma solo). -->
+        <div class="hero-photo" role="region" aria-roledescription="carrusel" aria-label="Fotos de Ahava">
+          <div class="slides" id="slides">
+            <figure class="slide">
+              <img src="assets/images/hero-amasando.webp" alt="Las manos de Cami amasando masa integral sobre el mesón" width="1400" height="788" style="object-position: 62% 50%" fetchpriority="high">
+            </figure>
+            <figure class="slide">
+              <img src="assets/images/banner-harina.webp" alt="Cami espolvoreando harina sobre dos masas, con el rodillo detrás" width="1500" height="844" decoding="async">
+            </figure>
+            <figure class="slide">
+              <img src="assets/images/banner-moldes.webp" alt="Panes de molde con semillas, listos para el horno" width="1500" height="844" loading="lazy" decoding="async">
+            </figure>
+            <figure class="slide">
+              <img src="assets/images/banner-corteza.webp" alt="Primer plano de panes de molde recién horneados, con semillas" width="1300" height="731" loading="lazy" decoding="async">
+            </figure>
+          </div>
+          <div class="slider-ui">
+            <button class="pp" id="pausa" type="button" aria-label="Pausar fotos">
+              <svg class="icon icon-pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg>
+              <svg class="icon icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5Z"/></svg>
+            </button>
+            <div class="dots" id="puntos"></div>
+          </div>
         </div>
       </div>
 
@@ -497,6 +549,105 @@
     });
 
     document.getElementById('anio').textContent = new Date().getFullYear();
+
+    // --- Banner de fotos -------------------------------------------------
+    // Avanza solo cada 5,5 s. Se detiene si la persona lo toca, desliza,
+    // pasa el mouse o enfoca un control; y tiene un botón de pausa (una
+    // animación que arranca sola debe poder detenerse). Con "reducir
+    // movimiento" activado en el teléfono no avanza solo.
+    (function () {
+      var pista = document.getElementById('slides');
+      var contenedorPuntos = document.getElementById('puntos');
+      var botonPausa = document.getElementById('pausa');
+      var fotos = [].slice.call(pista.querySelectorAll('.slide'));
+      var total = fotos.length;
+      var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var actual = 0;
+      var timer = null;
+      var pausadoPorPersona = reducido;
+      var puntos = [];
+
+      fotos.forEach(function (foto, i) {
+        foto.setAttribute('role', 'group');
+        foto.setAttribute('aria-roledescription', 'diapositiva');
+        foto.setAttribute('aria-label', (i + 1) + ' de ' + total);
+        var punto = el('button', 'dot');
+        punto.type = 'button';
+        punto.setAttribute('aria-label', 'Ver foto ' + (i + 1) + ' de ' + total);
+        punto.addEventListener('click', function () { pausar(true); ir(i); });
+        contenedorPuntos.appendChild(punto);
+        puntos.push(punto);
+      });
+
+      if (total < 2) { document.querySelector('.slider-ui').hidden = true; return; }
+
+      function marcar(i) {
+        actual = i;
+        puntos.forEach(function (p, n) { p.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+      }
+      function ir(i) {
+        pista.scrollTo({ left: i * pista.clientWidth, behavior: reducido ? 'auto' : 'smooth' });
+        marcar(i);
+      }
+      function arrancar() {
+        detener();
+        if (pausadoPorPersona || document.hidden) return;
+        timer = setInterval(function () { ir((actual + 1) % total); }, 5500);
+        pista.setAttribute('aria-live', 'off');
+      }
+      function detener() {
+        if (timer) { clearInterval(timer); timer = null; }
+        pista.setAttribute('aria-live', 'polite');
+      }
+      function pausar(porPersona) {
+        if (porPersona) pausadoPorPersona = true;
+        detener();
+        botonPausa.dataset.estado = 'pausado';
+        botonPausa.setAttribute('aria-label', 'Reanudar fotos');
+      }
+      function reanudar() {
+        pausadoPorPersona = false;
+        botonPausa.dataset.estado = 'activo';
+        botonPausa.setAttribute('aria-label', 'Pausar fotos');
+        arrancar();
+      }
+
+      botonPausa.addEventListener('click', function () {
+        if (pausadoPorPersona) reanudar(); else pausar(true);
+      });
+
+      // Seguir con el dedo o el trackpad: marcar el punto de la foto visible.
+      var esperando = false;
+      pista.addEventListener('scroll', function () {
+        if (esperando) return;
+        esperando = true;
+        requestAnimationFrame(function () {
+          esperando = false;
+          marcar(Math.round(pista.scrollLeft / pista.clientWidth));
+        });
+      }, { passive: true });
+
+      // Si la persona la toca o desliza, ya no avanza sola.
+      ['pointerdown', 'touchstart', 'wheel'].forEach(function (ev) {
+        pista.addEventListener(ev, function () { pausar(true); }, { passive: true });
+      });
+
+      var zona = document.querySelector('.hero-photo');
+      zona.addEventListener('mouseenter', detener);
+      zona.addEventListener('mouseleave', arrancar);
+      zona.addEventListener('focusin', detener);
+      zona.addEventListener('focusout', arrancar);
+      document.addEventListener('visibilitychange', function () { document.hidden ? detener() : arrancar(); });
+      window.addEventListener('resize', function () { pista.scrollLeft = actual * pista.clientWidth; });
+
+      marcar(0);
+      if (reducido) {
+        botonPausa.dataset.estado = 'pausado';
+        botonPausa.setAttribute('aria-label', 'Reanudar fotos');
+      } else {
+        arrancar();
+      }
+    })();
   </script>
 </body>
 </html>
